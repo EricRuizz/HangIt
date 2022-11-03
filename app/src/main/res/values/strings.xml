@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">HangIt</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="error_password">Incorrect Password</string>
 </resources>
