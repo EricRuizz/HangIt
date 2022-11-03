@@ -27,7 +27,6 @@ class LoginActivity : AppCompatActivity() {
             if(username == CORRECT_USERNAME && password == CORRECT_PASSWORD) {
                 runBlocking {
                     CoroutineScope(Dispatchers.Default).launch {
-                       // binding.progressBar.visibility = View.VISIBLE
                         delay(3000)
 
                         val intent = Intent(this@LoginActivity, MainActivity::class.java)
