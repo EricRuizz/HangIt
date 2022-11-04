@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.hangit.databinding.ActivityMainBinding
 import com.example.hangit.databinding.ActivitySplashScreenBinding
 
+@Suppress("DEPRECATION")
 class SplashScreenActivity : AppCompatActivity() {
     private lateinit var binding : ActivitySplashScreenBinding
 
