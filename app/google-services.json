@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "519890042156",
+    "project_id": "hangit-660df",
+    "storage_bucket": "hangit-660df.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:519890042156:android:4bb77633872d095edc4089",
+        "android_client_info": {
+          "package_name": "com.example.hangit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "519890042156-a37qktv1psn63s26f8pgbhe9eeqskug4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADpbjR3fx7ej0RKgNeiNMR0yBj6UdWckI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "519890042156-a37qktv1psn63s26f8pgbhe9eeqskug4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
