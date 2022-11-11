@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.widget.Toast
 import com.example.hangit.databinding.ActivityGameBinding
 import com.example.hangit.hangman.ApiHangman
+import com.example.hangit.hangman.BodyLetter
 import com.example.hangit.hangman.ResponseCreateGame
+import com.example.hangit.hangman.ResponseGuessLetter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -30,10 +32,10 @@ class GameActivity : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-        CreateGame(retrofit)
+        createGame(retrofit)
     }
 
-    fun CreateGame(retrofit: Retrofit){
+    fun createGame(retrofit: Retrofit){
 
         val call = retrofit.create(ApiHangman::class.java)
         call.createGame().enqueue( object : Callback<ResponseCreateGame>{
@@ -51,5 +53,22 @@ class GameActivity : AppCompatActivity() {
         })
     }
 
+    fun guessLetter(retrofit: Retrofit){
+        val call = retrofit.create(ApiHangman::class.java)
+        call.guessLetter(BodyLetter(gameInfo.token, "A")).enqueue( object : Callback<ResponseGuessLetter>{
+            override fun onResponse(
+                call: Call<ResponseGuessLetter>,
+                response: Response<ResponseGuessLetter>
+            ) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onFailure(call: Call<ResponseGuessLetter>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+        })
+
+
+    }
 
 }
