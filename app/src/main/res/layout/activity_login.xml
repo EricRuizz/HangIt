@@ -12,14 +12,12 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="275dp"
         android:layout_height="75dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="48dp"
+        android:layout_marginEnd="24dp"
         android:background="@drawable/emptyspace"
         android:hint="@string/username"
         app:boxBackgroundMode="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageUser"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.36">
 
@@ -36,19 +34,16 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="275dp"
         android:layout_height="75dp"
-        android:layout_marginStart="110dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
         android:background="@drawable/emptyspace"
         android:hint="@string/password"
         app:boxBackgroundMode="none"
         app:endIconMode="password_toggle"
-        app:layout_constraintBottom_toTopOf="@+id/loginButton"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.82"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userInputWrapper"
-        app:layout_constraintVertical_bias="0.32">
+        app:layout_constraintVertical_bias="0.060000002">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/passwordInput"
@@ -64,7 +59,6 @@
         android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
         android:layout_weight="1"
         android:background="#00FFFFFF"
         android:backgroundTint="#00FFFFFF"
@@ -77,8 +71,12 @@
         android:textColorHint="#00FFFFFF"
         android:textColorLink="#00FFFFFF"
         app:iconTint="#00FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.89"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordInputWrapper"
+        app:layout_constraintVertical_bias="0.0"
         app:rippleColor="#00FFFFFF"
         app:strokeColor="#00FFFFFF" />
 
@@ -86,29 +84,26 @@
         android:id="@+id/imageUser"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="238dp"
-        android:layout_marginEnd="12dp"
         android:scaleType="centerInside"
+        app:layout_constraintBottom_toTopOf="@+id/imageLock"
         app:layout_constraintEnd_toStartOf="@+id/userInputWrapper"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.9"
         app:srcCompat="@drawable/usericon" />
 
     <ImageView
         android:id="@+id/imageLock"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="12dp"
+        android:layout_marginEnd="23dp"
         android:scaleType="centerInside"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/passwordInputWrapper"
-        app:layout_constraintHorizontal_bias="0.76"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageUser"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.509"
         app:srcCompat="@drawable/lockicon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
