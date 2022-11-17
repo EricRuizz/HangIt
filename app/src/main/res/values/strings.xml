@@ -2,5 +2,6 @@
     <string name="app_name">HangIt</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
-    <string name="error_password">Incorrect Password</string>
+    <string name="error_password">Incorrect Password or Username</string>
+    <string name="register_error">Passwords does not match, try again</string>
 </resources>
