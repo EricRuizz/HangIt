@@ -19,6 +19,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
+        //After 3 sec the current screen will be the login one, not the splash screen
         Handler().postDelayed(
             {
                 val intent = Intent(this@SplashScreenActivity, LoginActivity::class.java)

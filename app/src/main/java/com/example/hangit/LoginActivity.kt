@@ -24,10 +24,12 @@ class LoginActivity : AppCompatActivity() {
 
         firebaseAuth = FirebaseAuth.getInstance()
 
+        //Login when button is clicked
         binding.loginButton.setOnClickListener {
             val username = binding.userInput.text.toString()
             val password = binding.passwordInput.text.toString()
 
+            //Can login
             firebaseAuth.signInWithEmailAndPassword(username, password).addOnSuccessListener {
                 val intent = Intent(this@LoginActivity, MainActivity::class.java)
                 startActivity(intent)
@@ -35,12 +37,13 @@ class LoginActivity : AppCompatActivity() {
                 finish()
 
             }.addOnFailureListener {
-
+                //Can't login
                 Toast.makeText(this, getString(R.string.error_password), Toast.LENGTH_SHORT).show()
             }
 
         }
 
+        //Go to register screen
         binding.buttongoToRegister.setOnClickListener {
                 val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
                 startActivity(intent)

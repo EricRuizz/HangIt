@@ -35,6 +35,7 @@ class GameActivity : AppCompatActivity() {
         createGame(retrofit)
     }
 
+    //API Hangman
     fun createGame(retrofit: Retrofit){
 
         val call = retrofit.create(ApiHangman::class.java)

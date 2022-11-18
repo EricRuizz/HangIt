@@ -1,12 +1,13 @@
 package com.example.hangit.hangman
 
-data class ResponseCreateGame(
 
+//Post
+data class ResponseCreateGame(
     val hangman: String,
     val token: String
-
 )
 
+//Put
 data class ResponseGuessLetter(
     val hangman: String,
     val token: String,

@@ -22,35 +22,35 @@ class RegisterActivity : AppCompatActivity() {
 
         firebaseAuth = FirebaseAuth.getInstance()
 
+        //Register button is clicked
         binding.registerButton.setOnClickListener {
             val username = binding.userInput.text.toString()
             val password = binding.passwordInput.text.toString()
             val password2 = binding.passwordInput.text.toString()
 
             //TODO: mirar si l usuari existeix
-                if (password2 == password2) {
-                    firebaseAuth.createUserWithEmailAndPassword(username, password)
-                        .addOnSuccessListener {
-                            val intent = Intent(this@RegisterActivity, MainActivity::class.java)
-                            startActivity(intent)
 
-                            finish()
+            //If password 1 is the same that password 2, user can be registred
+            if (password2 == password2) {
+                firebaseAuth.createUserWithEmailAndPassword(username, password).addOnSuccessListener {
+                    val intent = Intent(this@RegisterActivity, MainActivity::class.java)
+                    startActivity(intent)
 
-                        }.addOnFailureListener {
+                    finish()
 
-                            Toast.makeText(
-                                this,
-                                getString(R.string.error_password),
-                                Toast.LENGTH_SHORT
-                            )
-                                .show()
-                        }
+                }.addOnFailureListener {
+                    //The password don't match, user can not register, has to try again
+                    Toast.makeText(this, getString(R.string.error_password), Toast.LENGTH_SHORT).show()
+                }
+
                 } else {
                     Toast.makeText(this, getString(R.string.register_error), Toast.LENGTH_SHORT)
                         .show()
                 }
 
         }
+
+        //If the user has already an account, a login button to go to the login screen
         binding.buttongoToLogin.setOnClickListener {
             val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
             startActivity(intent)
