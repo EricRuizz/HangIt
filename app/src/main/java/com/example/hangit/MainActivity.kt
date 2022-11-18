@@ -1,5 +1,6 @@
 package com.example.hangit
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -16,5 +17,45 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+        //Go to game screen
+        binding.playButton.setOnClickListener {
+            val intent = Intent(this@MainActivity, GameActivity::class.java)
+            startActivity(intent)
+
+            finish()
+        }
+
+        //Go to ranking screen
+        binding.rankingButton.setOnClickListener {
+            val intent = Intent(this@MainActivity, RankingActivity::class.java)
+            startActivity(intent)
+
+            finish()
+        }
+
+        //Go to user screen
+        binding.userButton.setOnClickListener {
+            val intent = Intent(this@MainActivity, UserActivity::class.java)
+            startActivity(intent)
+
+            finish()
+        }
+
+        //Go to settings screen
+        binding.userButton.setOnClickListener {
+            val intent = Intent(this@MainActivity, SettingsActivity::class.java)
+            startActivity(intent)
+
+            finish()
+        }
+
+        //Go to ad screen
+        binding.userButton.setOnClickListener {
+            val intent = Intent(this@MainActivity, AdActivity::class.java)
+            startActivity(intent)
+
+            finish()
+        }
     }
 }
