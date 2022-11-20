@@ -1,6 +1,7 @@
 package com.example.hangit
 
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -14,8 +15,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class GameActivity : AppCompatActivity() {
 
-    private lateinit var binding : ActivityGameBinding
-    private lateinit var gameInfo : ResponseCreateGame
+    private lateinit var binding: ActivityGameBinding
+    private lateinit var gameInfo: ResponseCreateGame
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,18 +31,24 @@ class GameActivity : AppCompatActivity() {
             .build()
 
         createGame(retrofit)
+
+        //Player guessed letter A
+        binding.letterA.setOnClickListener{
+            guessLetter(retrofit, "A")
+        }
     }
 
+
     //API Hangman
-    fun createGame(retrofit: Retrofit){
+    fun createGame(retrofit: Retrofit) {
 
         val call = retrofit.create(ApiHangman::class.java)
-        call.createGame().enqueue( object : Callback<ResponseCreateGame>{
+        call.createGame().enqueue(object : Callback<ResponseCreateGame> {
             override fun onResponse(
                 call: Call<ResponseCreateGame>,
                 response: Response<ResponseCreateGame>
             ) {
-                gameInfo = response.body()?: ResponseCreateGame("","")
+                gameInfo = response.body() ?: ResponseCreateGame("", "")
             }
 
             override fun onFailure(call: Call<ResponseCreateGame>, t: Throwable) {
@@ -51,25 +58,26 @@ class GameActivity : AppCompatActivity() {
         })
     }
 
-    fun guessLetter(retrofit: Retrofit){
+    fun guessLetter(retrofit: Retrofit, letter:String) {
         val call = retrofit.create(ApiHangman::class.java)
-        call.guessLetter(BodyLetter(gameInfo.token, "A")).enqueue( object : Callback<ResponseGuessLetter>{
-            override fun onResponse(
-                call: Call<ResponseGuessLetter>,
-                response: Response<ResponseGuessLetter>
-            ) {
-                TODO("Not yet implemented")
-            }
+        call.guessLetter(BodyLetter(gameInfo.token, letter))
+            .enqueue(object : Callback<ResponseGuessLetter> {
+                override fun onResponse(
+                    call: Call<ResponseGuessLetter>,
+                    response: Response<ResponseGuessLetter>
+                ) {
+                    TODO("Not yet implemented")
+                }
 
-            override fun onFailure(call: Call<ResponseGuessLetter>, t: Throwable) {
-                TODO("Not yet implemented")
-            }
-        })
+                override fun onFailure(call: Call<ResponseGuessLetter>, t: Throwable) {
+                    TODO("Not yet implemented")
+                }
+            })
     }
 
-    fun getHint(retrofit: Retrofit){
+    fun getHint(retrofit: Retrofit) {
         val call = retrofit.create(ApiHangman::class.java)
-        call.getHint(bodyGameToken(gameInfo.token)).enqueue(object : Callback<ResponseHint>{
+        call.getHint(bodyGameToken(gameInfo.token)).enqueue(object : Callback<ResponseHint> {
             override fun onResponse(call: Call<ResponseHint>, response: Response<ResponseHint>) {
                 TODO("Not yet implemented")
             }
@@ -85,11 +93,11 @@ class GameActivity : AppCompatActivity() {
         val call = retrofit.create(ApiHangman::class.java)
         call.getSolution(bodyGameToken(gameInfo.token)).enqueue(object : Callback<ResponseSolution> {
             override fun onResponse(call: Call<ResponseSolution>, response: Response<ResponseSolution>) {
-                TODO("Not yet implemented")
-            }
+                    TODO("Not yet implemented")
+                }
 
             override fun onFailure(call: Call<ResponseSolution>, t: Throwable) {
-                TODO("Not yet implemented")
+                    TODO("Not yet implemented")
             }
 
         })
