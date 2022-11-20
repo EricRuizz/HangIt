@@ -13,3 +13,14 @@ data class ResponseGuessLetter(
     val token: String,
     val correct: Boolean
 )
+
+//Get
+data class ResponseHint(
+    val letter: String,
+    val token: String
+)
+
+data class ResponseSolution(
+    val gameSolution: String,
+    val token: String
+)

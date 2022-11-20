@@ -5,10 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.example.hangit.databinding.ActivityGameBinding
-import com.example.hangit.hangman.ApiHangman
-import com.example.hangit.hangman.BodyLetter
-import com.example.hangit.hangman.ResponseCreateGame
-import com.example.hangit.hangman.ResponseGuessLetter
+import com.example.hangit.hangman.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -68,8 +65,33 @@ class GameActivity : AppCompatActivity() {
                 TODO("Not yet implemented")
             }
         })
-
-
     }
 
+    fun getHint(retrofit: Retrofit){
+        val call = retrofit.create(ApiHangman::class.java)
+        call.getHint(bodyGameToken(gameInfo.token)).enqueue(object : Callback<ResponseHint>{
+            override fun onResponse(call: Call<ResponseHint>, response: Response<ResponseHint>) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onFailure(call: Call<ResponseHint>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+
+        })
+    }
+
+    fun getSolution(retrofit: Retrofit) {
+        val call = retrofit.create(ApiHangman::class.java)
+        call.getSolution(bodyGameToken(gameInfo.token)).enqueue(object : Callback<ResponseSolution> {
+            override fun onResponse(call: Call<ResponseSolution>, response: Response<ResponseSolution>) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onFailure(call: Call<ResponseSolution>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+
+        })
+    }
 }
