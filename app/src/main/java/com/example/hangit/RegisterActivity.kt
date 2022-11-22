@@ -20,13 +20,15 @@ class RegisterActivity : AppCompatActivity() {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.hide()
+
         firebaseAuth = FirebaseAuth.getInstance()
 
         //Register button is clicked
         binding.registerButton.setOnClickListener {
             val username = binding.userInput.text.toString()
             val password = binding.passwordInput.text.toString()
-            val password2 = binding.passwordInput.text.toString()
+            val password2 = binding.registerPasswordInput.text.toString()
 
             //If password 1 is the same that password 2, user can be registred
             if (password == password2) {
@@ -40,7 +42,7 @@ class RegisterActivity : AppCompatActivity() {
                     }.addOnFailureListener {
                         Toast.makeText(
                             this,
-                            getString(R.string.error_connection) + it.message.toString(),
+                            getString(R.string.error_connection) + " " + it.message.toString(),
                             Toast.LENGTH_SHORT
                         )
                             .show()

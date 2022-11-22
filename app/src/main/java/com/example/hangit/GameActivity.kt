@@ -25,6 +25,8 @@ class GameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        supportActionBar?.hide()
+
         val retrofit = Retrofit.Builder()
             .baseUrl("https://hangman-api.herokuapp.com/")
             .addConverterFactory(GsonConverterFactory.create())

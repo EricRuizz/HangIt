@@ -22,6 +22,8 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.hide()
+
         firebaseAuth = FirebaseAuth.getInstance()
 
         //Login when button is clicked
@@ -38,7 +40,11 @@ class LoginActivity : AppCompatActivity() {
 
             }.addOnFailureListener {
                 //Can't login
-                Toast.makeText(this, getString(R.string.error_password), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    getString(R.string.error_connection) + " " + it.message.toString(),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
 
         }
