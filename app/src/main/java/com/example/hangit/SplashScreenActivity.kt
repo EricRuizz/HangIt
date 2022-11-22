@@ -9,7 +9,7 @@ import com.example.hangit.databinding.ActivitySplashScreenBinding
 
 @Suppress("DEPRECATION")
 class SplashScreenActivity : AppCompatActivity() {
-    private lateinit var binding : ActivitySplashScreenBinding
+    private lateinit var binding: ActivitySplashScreenBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +25,8 @@ class SplashScreenActivity : AppCompatActivity() {
                 val intent = Intent(this@SplashScreenActivity, LoginActivity::class.java)
                 startActivity(intent)
                 finish()
-            }, 3000)
+            }, 3000
+        )
     }
 
 }

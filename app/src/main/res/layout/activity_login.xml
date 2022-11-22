@@ -119,7 +119,7 @@
         android:id="@+id/buttongoToRegister"
         android:layout_width="170dp"
         android:layout_height="55dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="10dp"
         android:backgroundTint="#00FFFFFF"
         android:shadowColor="#00FFFFFF"
         android:text="Register here"

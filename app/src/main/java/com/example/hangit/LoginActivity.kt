@@ -45,10 +45,10 @@ class LoginActivity : AppCompatActivity() {
 
         //Go to register screen
         binding.buttongoToRegister.setOnClickListener {
-                val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
-                startActivity(intent)
+            val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
+            startActivity(intent)
 
-                finish()
+            finish()
         }
 
     }

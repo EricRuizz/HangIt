@@ -28,25 +28,28 @@ class RegisterActivity : AppCompatActivity() {
             val password = binding.passwordInput.text.toString()
             val password2 = binding.passwordInput.text.toString()
 
-            //TODO: mirar si l usuari existeix
-
             //If password 1 is the same that password 2, user can be registred
-            if (password2 == password2) {
-                firebaseAuth.createUserWithEmailAndPassword(username, password).addOnSuccessListener {
-                    val intent = Intent(this@RegisterActivity, MainActivity::class.java)
-                    startActivity(intent)
+            if (password == password2) {
+                firebaseAuth.createUserWithEmailAndPassword(username, password)
+                    .addOnSuccessListener {
+                        val intent = Intent(this@RegisterActivity, MainActivity::class.java)
+                        startActivity(intent)
 
-                    finish()
+                        finish()
 
-                }.addOnFailureListener {
-                    //The password don't match, user can not register, has to try again
-                    Toast.makeText(this, getString(R.string.error_password), Toast.LENGTH_SHORT).show()
-                }
+                    }.addOnFailureListener {
+                        Toast.makeText(
+                            this,
+                            getString(R.string.error_connection) + it.message.toString(),
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                    }
 
-                } else {
-                    Toast.makeText(this, getString(R.string.register_error), Toast.LENGTH_SHORT)
-                        .show()
-                }
+            } else {
+                Toast.makeText(this, getString(R.string.register_error), Toast.LENGTH_SHORT)
+                    .show()
+            }
 
         }
 
@@ -57,5 +60,5 @@ class RegisterActivity : AppCompatActivity() {
 
             finish()
         }
-        }
     }
+}
