@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         //Go to settings screen
-        binding.userButton.setOnClickListener {
+        binding.settingsButton.setOnClickListener {
             val intent = Intent(this@MainActivity, SettingsActivity::class.java)
             startActivity(intent)
 
@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         //Go to ad screen
-        binding.userButton.setOnClickListener {
+        binding.adButton.setOnClickListener {
             val intent = Intent(this@MainActivity, AdActivity::class.java)
             startActivity(intent)
 
