@@ -4,4 +4,5 @@
     <string name="password">Password</string>
     <string name="error_password">Incorrect Password or Username</string>
     <string name="register_error">Passwords does not match, try again</string>
+    <string name="error_connection">There was an error</string>
 </resources>

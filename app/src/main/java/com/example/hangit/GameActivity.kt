@@ -52,7 +52,7 @@ class GameActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<ResponseCreateGame>, t: Throwable) {
-                Toast.makeText(this@GameActivity, "There was an error", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@GameActivity, getString(R.string.error_connection), Toast.LENGTH_SHORT).show()
             }
 
         })
@@ -60,30 +60,32 @@ class GameActivity : AppCompatActivity() {
 
     fun guessLetter(retrofit: Retrofit, letter:String) {
         val call = retrofit.create(ApiHangman::class.java)
-        call.guessLetter(BodyLetter(gameInfo.token, letter))
+        call.guessLetter(gameInfo.token, letter)
             .enqueue(object : Callback<ResponseGuessLetter> {
                 override fun onResponse(
                     call: Call<ResponseGuessLetter>,
                     response: Response<ResponseGuessLetter>
                 ) {
-                    TODO("Not yet implemented")
+                    if (response.body()?.correct == false) {
+                        //fer que es descarti la lletra o es posi en gris i caigui abre
+                    }
                 }
 
                 override fun onFailure(call: Call<ResponseGuessLetter>, t: Throwable) {
-                    TODO("Not yet implemented")
+                    Toast.makeText(this@GameActivity, getString(R.string.error_connection), Toast.LENGTH_SHORT).show()
                 }
             })
     }
 
     fun getHint(retrofit: Retrofit) {
         val call = retrofit.create(ApiHangman::class.java)
-        call.getHint(bodyGameToken(gameInfo.token)).enqueue(object : Callback<ResponseHint> {
+        call.getHint(gameInfo.token).enqueue(object : Callback<ResponseHint> {
             override fun onResponse(call: Call<ResponseHint>, response: Response<ResponseHint>) {
                 TODO("Not yet implemented")
             }
 
             override fun onFailure(call: Call<ResponseHint>, t: Throwable) {
-                TODO("Not yet implemented")
+                Toast.makeText(this@GameActivity, getString(R.string.error_connection), Toast.LENGTH_SHORT).show()
             }
 
         })
@@ -91,13 +93,13 @@ class GameActivity : AppCompatActivity() {
 
     fun getSolution(retrofit: Retrofit) {
         val call = retrofit.create(ApiHangman::class.java)
-        call.getSolution(bodyGameToken(gameInfo.token)).enqueue(object : Callback<ResponseSolution> {
+        call.getSolution(gameInfo.token).enqueue(object : Callback<ResponseSolution> {
             override fun onResponse(call: Call<ResponseSolution>, response: Response<ResponseSolution>) {
                     TODO("Not yet implemented")
                 }
 
             override fun onFailure(call: Call<ResponseSolution>, t: Throwable) {
-                    TODO("Not yet implemented")
+                Toast.makeText(this@GameActivity, getString(R.string.error_connection), Toast.LENGTH_SHORT).show()
             }
 
         })
