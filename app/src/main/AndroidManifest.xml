@@ -38,7 +38,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".RankingActivity"
+            android:name=".ranking.RankingActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
