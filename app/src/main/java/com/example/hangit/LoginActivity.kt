@@ -26,6 +26,15 @@ class LoginActivity : AppCompatActivity() {
 
         firebaseAuth = FirebaseAuth.getInstance()
 
+        //If user already logged, it remembers it
+        if (firebaseAuth.currentUser != null) {
+            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+            startActivity(intent)
+
+            finish()
+        }
+
+
         //Login when button is clicked
         binding.loginButton.setOnClickListener {
             val username = binding.userInput.text.toString()
@@ -47,6 +56,14 @@ class LoginActivity : AppCompatActivity() {
                 ).show()
             }
 
+        }
+
+        //Guest login
+        binding.loginAsGuestButton.setOnClickListener {
+            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+            startActivity(intent)
+
+            finish()
         }
 
         //Go to register screen
