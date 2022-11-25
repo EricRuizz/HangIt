@@ -34,26 +34,35 @@ class LoginActivity : AppCompatActivity() {
             finish()
         }
 
-
         //Login when button is clicked
         binding.loginButton.setOnClickListener {
             val username = binding.userInput.text.toString()
             val password = binding.passwordInput.text.toString()
 
-            //Can login
-            firebaseAuth.signInWithEmailAndPassword(username, password).addOnSuccessListener {
-                val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                startActivity(intent)
+            if (username == "" || password == "") {
 
-                finish()
-
-            }.addOnFailureListener {
-                //Can't login
+                //If the text is empty
                 Toast.makeText(
                     this,
-                    getString(R.string.error_connection) + " " + it.message.toString(),
+                    getString(R.string.empty_paramenters),
                     Toast.LENGTH_SHORT
                 ).show()
+            } else {
+                //Can login
+                firebaseAuth.signInWithEmailAndPassword(username, password).addOnSuccessListener {
+                    val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                    startActivity(intent)
+
+                    finish()
+
+                }.addOnFailureListener {
+                    //Can't login
+                    Toast.makeText(
+                        this,
+                        getString(R.string.error_connection) + " " + it.message.toString(),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
             }
 
         }

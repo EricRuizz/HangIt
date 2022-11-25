@@ -5,4 +5,107 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SettingsActivity"
-    android:background = "@drawable/hangit_settingsscreen"/>
+    android:background = "@drawable/hangit_settingsscreen">
+
+    <Button
+        android:id="@+id/goBackButtonSettings"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="64dp"
+        android:foreground="@drawable/gobackicon"
+        android:shadowColor="#00FFFFFF"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/audioButton"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="16dp"
+        android:foreground="@drawable/blankbuttonicon"
+        android:shadowColor="#00FFFFFF"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/audioText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/audioText"
+        app:layout_constraintTop_toTopOf="@+id/audioText" />
+
+    <Button
+        android:id="@+id/notificationButton"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="16dp"
+        android:foreground="@drawable/blankbuttonicon"
+        android:shadowColor="#00FFFFFF"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/notificationsText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/notificationsText"
+        app:layout_constraintTop_toTopOf="@+id/notificationsText" />
+
+    <Button
+        android:id="@+id/logOutButton"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="160dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_weight="1"
+        android:background="#00FFFFFF"
+        android:backgroundTint="#00FFFFFF"
+        android:backgroundTintMode="add"
+        android:foreground="@drawable/logouticon"
+        android:shadowColor="#00FFFFFF"
+        android:text="logOut"
+        android:textColor="#00FFFFFF"
+        android:textColorHighlight="#00FFFFFF"
+        android:textColorHint="#00FFFFFF"
+        android:textColorLink="#00FFFFFF"
+        app:iconTint="#00FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.08"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.32999998"
+        app:rippleColor="#00FFFFFF"
+        app:strokeColor="#00FFFFFF" />
+
+    <ImageView
+        android:id="@+id/audioText"
+        android:layout_width="116dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/logOutButton"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/logOutButton"
+        app:layout_constraintTop_toBottomOf="@+id/logOutButton"
+        app:srcCompat="@drawable/audiotext" />
+
+    <ImageView
+        android:id="@+id/notificationsText"
+        android:layout_width="245dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/audioText"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/audioText"
+        app:layout_constraintTop_toBottomOf="@+id/audioText"
+        app:srcCompat="@drawable/notificationstext" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
