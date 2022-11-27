@@ -5,23 +5,79 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/numberRankingBG"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        app:layout_constraintBottom_toBottomOf="@+id/nameRankingBG"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/nameRankingBG"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/blankbuttonicon" />
+
+    <ImageView
+        android:id="@+id/scoreRankingBG"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintBottom_toBottomOf="@+id/nameRankingBG"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/nameRankingBG"
+        app:layout_constraintTop_toTopOf="@+id/nameRankingBG"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/scorerankingicon" />
+
+    <ImageView
+        android:id="@+id/nameRankingBG"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toEndOf="@+id/numberRankingBG"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/namerankingicon" />
+
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:fontFamily="sans-serif-black"
         android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/nameRankingBG"
+        app:layout_constraintEnd_toEndOf="@+id/nameRankingBG"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintStart_toStartOf="@+id/nameRankingBG"
+        app:layout_constraintTop_toTopOf="@+id/nameRankingBG"
+        app:layout_constraintVertical_bias="0.516" />
+
+    <TextView
+        android:id="@+id/number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-black"
+        android:text="0"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/numberRankingBG"
+        app:layout_constraintEnd_toEndOf="@+id/numberRankingBG"
+        app:layout_constraintStart_toStartOf="@+id/numberRankingBG"
+        app:layout_constraintTop_toTopOf="@+id/numberRankingBG" />
 
     <TextView
         android:id="@+id/score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:fontFamily="sans-serif-black"
         android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="@+id/name"
-        app:layout_constraintStart_toEndOf="@+id/name"
-        app:layout_constraintTop_toTopOf="@+id/name" />
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/scoreRankingBG"
+        app:layout_constraintEnd_toEndOf="@+id/scoreRankingBG"
+        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintStart_toStartOf="@+id/scoreRankingBG"
+        app:layout_constraintTop_toTopOf="@+id/scoreRankingBG"
+        app:layout_constraintVertical_bias="0.516" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

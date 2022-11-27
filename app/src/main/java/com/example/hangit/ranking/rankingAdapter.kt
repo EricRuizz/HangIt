@@ -16,6 +16,7 @@ class RankingAdapter(val context: Context) :
             RecyclerView.ViewHolder(binding.root) {
             val name = binding.name
             val score = binding.score
+            val number = binding.number
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
@@ -28,6 +29,7 @@ class RankingAdapter(val context: Context) :
             val user = users[position]
             holder.name.text = user.name
             holder.score.text = user.score.toString()
+            holder.number.text = (position + 1).toString()
 
         }
 
