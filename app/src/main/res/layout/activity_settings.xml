@@ -108,4 +108,27 @@
         app:layout_constraintTop_toBottomOf="@+id/audioText"
         app:srcCompat="@drawable/notificationstext" />
 
+    <ImageView
+        android:id="@+id/audioTick"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="10dp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/audioButton"
+        app:layout_constraintStart_toStartOf="@+id/audioButton"
+        app:layout_constraintTop_toTopOf="@+id/audioButton"
+        app:srcCompat="@drawable/tickicon" />
+
+    <ImageView
+        android:id="@+id/notificationsTick"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="10dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/notificationButton"
+        app:layout_constraintEnd_toEndOf="@+id/notificationButton"
+        app:layout_constraintStart_toStartOf="@+id/notificationButton"
+        app:layout_constraintTop_toTopOf="@+id/notificationButton"
+        app:srcCompat="@drawable/tickicon" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
