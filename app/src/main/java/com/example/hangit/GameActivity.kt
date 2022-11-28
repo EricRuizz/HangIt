@@ -16,9 +16,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class GameActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityGameBinding
-    private lateinit var gameInfo: ResponseCreateGame
-    private lateinit var letterInfo: ResponseGuessLetter
+    lateinit var binding: ActivityGameBinding
+    lateinit var gameInfo: ResponseCreateGame
+    lateinit var letterInfo: ResponseGuessLetter
+    lateinit var hintInfo: ResponseHint
+    lateinit var solutionInfo: ResponseSolution
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +32,7 @@ class GameActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://hangman-api.herokuapp.com/")
+            .baseUrl("https://hangman-api.herokuapp.com")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
@@ -168,13 +170,24 @@ class GameActivity : AppCompatActivity() {
 
         //Player guessed letter SPACE
         binding.space.setOnClickListener {
-            guessLetter(retrofit, " ", binding.space)
+            //guessLetter(retrofit, " ", binding.space)
+            getSolution(retrofit)
+        }
+
+        //Go to back the main screen
+        binding.goBackButtonGame.setOnClickListener {
+            val intent = Intent(this@GameActivity, MainActivity::class.java)
+            startActivity(intent)
+
+            finish()
         }
     }
 
 
     //API Hangman
     fun createGame(retrofit: Retrofit) {
+
+        createLetters()
 
         val call = retrofit.create(ApiHangman::class.java)
         call.createGame().enqueue(object : Callback<ResponseCreateGame> {
@@ -184,6 +197,7 @@ class GameActivity : AppCompatActivity() {
             ) {
                 //Save the game info and check if null
                 gameInfo = response.body() ?: ResponseCreateGame("", "")
+                binding.word.text = gameInfo.hangman
             }
 
             override fun onFailure(call: Call<ResponseCreateGame>, t: Throwable) {
@@ -199,23 +213,32 @@ class GameActivity : AppCompatActivity() {
 
     fun guessLetter(retrofit: Retrofit, letter: String, button: Button) {
         val call = retrofit.create(ApiHangman::class.java)
-        call.guessLetter(gameInfo.token, letter)
+        call.guessLetter(letter, gameInfo.token)
             .enqueue(object : Callback<ResponseGuessLetter> {
                 override fun onResponse(
                     call: Call<ResponseGuessLetter>,
                     response: Response<ResponseGuessLetter>
                 ) {
-                    //Save the game info and check if null
+                    //Save the letter info and check if null
                     letterInfo = response.body() ?: ResponseGuessLetter("", "", false)
-
+                    gameInfo.token = letterInfo.token
+                    gameInfo.hangman = letterInfo.hangman
 
                     if (response.body()?.correct == false) {
-                        //fer que es descarti la lletra o es posi en gris i caigui abre
-                        button.foreground.alpha = 140
+                        // "tree animation" plays and sound
+
 
                     } else {
+                        //Add sound
+
                         //Add letter to the solution
+                        binding.word.text = letterInfo.hangman
                     }
+
+                    //We discard the letter
+                    button.background.alpha = 0
+                    button.text = " "
+                    button.foreground.alpha = 80
 
                     //The user can not guess a letter that has ben guessed before
                     button.isClickable = false
@@ -236,7 +259,10 @@ class GameActivity : AppCompatActivity() {
         val call = retrofit.create(ApiHangman::class.java)
         call.getHint(gameInfo.token).enqueue(object : Callback<ResponseHint> {
             override fun onResponse(call: Call<ResponseHint>, response: Response<ResponseHint>) {
-                TODO("Not yet implemented")
+                //Save the game info and check if null
+                hintInfo = response.body() ?: ResponseHint("", "")
+                gameInfo.token = hintInfo.token
+                //guessLetter(retrofit, hintInfo.letter, button)
             }
 
             override fun onFailure(call: Call<ResponseHint>, t: Throwable) {
@@ -257,7 +283,11 @@ class GameActivity : AppCompatActivity() {
                 call: Call<ResponseSolution>,
                 response: Response<ResponseSolution>
             ) {
-                TODO("Not yet implemented")
+                solutionInfo = response.body() ?: ResponseSolution("", "")
+                gameInfo.token = solutionInfo.token
+                gameInfo.hangman = solutionInfo.solution
+
+                binding.word.text = gameInfo.hangman
             }
 
             override fun onFailure(call: Call<ResponseSolution>, t: Throwable) {
@@ -269,5 +299,20 @@ class GameActivity : AppCompatActivity() {
             }
 
         })
+    }
+
+    fun createLetters(){
+
+        //We set the letter parameters
+        binding.letterA.background.alpha = 0
+        binding.letterA.text = " "
+        binding.letterA.foreground.alpha = 255
+        binding.letterA.isClickable = true
+
+        binding.letterB.background.alpha = 0
+        binding.letterB.text = " "
+        binding.letterB.foreground.alpha = 255
+        binding.letterB.isClickable = true
+
     }
 }

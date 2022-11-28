@@ -3,8 +3,8 @@ package com.example.hangit.hangman
 
 //Post
 data class ResponseCreateGame(
-    val hangman: String,
-    val token: String
+    var hangman: String,
+    var token: String
 )
 
 //Put
@@ -21,6 +21,6 @@ data class ResponseHint(
 )
 
 data class ResponseSolution(
-    val gameSolution: String,
+    val solution: String,
     val token: String
 )

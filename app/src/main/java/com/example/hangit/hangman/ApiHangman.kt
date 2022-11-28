@@ -13,9 +13,11 @@ interface ApiHangman {
     fun createGame() : Call<ResponseCreateGame>
 
     @PUT("/hangman")
-    fun guessLetter(@Query("token") token: String, @Query ("letter") letter: String) : Call<ResponseGuessLetter>
+    fun guessLetter(@Query ("letter") letter: String, @Query("token") token: String) : Call<ResponseGuessLetter>
+
+    @GET("/hangman/hint")
+    fun getHint(@Query("token") token: String) : Call<ResponseHint>
 
     @GET("/hangman")
-    fun getHint(@Query("token") token: String) : Call<ResponseHint>
     fun getSolution(@Query("token") token : String) : Call<ResponseSolution>
 }

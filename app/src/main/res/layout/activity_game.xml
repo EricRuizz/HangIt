@@ -7,28 +7,48 @@
     android:background="@drawable/gamebackground"
     tools:context=".GameActivity">
 
+    <Button
+        android:id="@+id/goBackButtonGame"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="64dp"
+        android:foreground="@drawable/gobackicon"
+        android:shadowColor="#00FFFFFF"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
     <ImageView
         android:id="@+id/lettersLayout"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="350dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="280dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="32dp"
+        android:foreground="@drawable/leterlayout"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/leterlayout" />
+        app:layout_constraintVertical_bias="0.79" />
 
     <Button
         android:id="@+id/letterA"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
         android:foreground="@drawable/lettera"
         android:shadowColor="#00FFFFFF"
@@ -297,7 +317,7 @@
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="110dp"
+        android:layout_marginBottom="15dp"
         android:foreground="@drawable/lettery"
         android:shadowColor="#00FFFFFF"
         android:text="Button"
@@ -404,5 +424,18 @@
         app:layout_constraintStart_toEndOf="@+id/letterE"
         app:layout_constraintTop_toTopOf="@+id/letterA"
         app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/word"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:text="TextView"
+        android:textColor="#562310"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
