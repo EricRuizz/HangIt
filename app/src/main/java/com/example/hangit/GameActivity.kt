@@ -16,11 +16,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class GameActivity : AppCompatActivity() {
 
-    lateinit var binding: ActivityGameBinding
-    lateinit var gameInfo: ResponseCreateGame
-    lateinit var letterInfo: ResponseGuessLetter
-    lateinit var hintInfo: ResponseHint
-    lateinit var solutionInfo: ResponseSolution
+    private lateinit var binding: ActivityGameBinding
+    private lateinit var gameInfo: ResponseCreateGame
+    private lateinit var letterInfo: ResponseGuessLetter
+    private lateinit var hintInfo: ResponseHint
+    private lateinit var solutionInfo: ResponseSolution
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -170,8 +170,8 @@ class GameActivity : AppCompatActivity() {
 
         //Player guessed letter SPACE
         binding.space.setOnClickListener {
-            //guessLetter(retrofit, " ", binding.space)
-            getSolution(retrofit)
+            guessLetter(retrofit, " ", binding.space)
+            //getSolution(retrofit)
         }
 
         //Go to back the main screen
@@ -211,6 +211,7 @@ class GameActivity : AppCompatActivity() {
         })
     }
 
+    //User enters a letter
     fun guessLetter(retrofit: Retrofit, letter: String, button: Button) {
         val call = retrofit.create(ApiHangman::class.java)
         call.guessLetter(letter, gameInfo.token)
@@ -240,7 +241,7 @@ class GameActivity : AppCompatActivity() {
                     button.text = " "
                     button.foreground.alpha = 80
 
-                    //The user can not guess a letter that has ben guessed before
+                    //The user can not guess a letter that has been guessed before
                     button.isClickable = false
 
                 }
@@ -255,6 +256,7 @@ class GameActivity : AppCompatActivity() {
             })
     }
 
+    //User can ask for a hint (not implemented now)
     fun getHint(retrofit: Retrofit) {
         val call = retrofit.create(ApiHangman::class.java)
         call.getHint(gameInfo.token).enqueue(object : Callback<ResponseHint> {
@@ -276,6 +278,7 @@ class GameActivity : AppCompatActivity() {
         })
     }
 
+    //Get the solution: the word
     fun getSolution(retrofit: Retrofit) {
         val call = retrofit.create(ApiHangman::class.java)
         call.getSolution(gameInfo.token).enqueue(object : Callback<ResponseSolution> {
@@ -433,6 +436,12 @@ class GameActivity : AppCompatActivity() {
         binding.letterZ.text = " "
         binding.letterZ.foreground.alpha = 255
         binding.letterZ.isClickable = true
+
+        binding.space.background.alpha = 0
+        binding.space.text = " "
+        binding.space.foreground.alpha = 255
+        binding.space.isClickable = true
+
 
     }
 }
