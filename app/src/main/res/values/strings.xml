@@ -8,4 +8,5 @@
     <string name="error_logOut">Can not logOut, user is a guest</string>
     <string name="empty_paramenters">Please enter all the parameters</string>
     <string name="can_not_save">This will be not saved, user is a guest</string>
+    <string name="already_guessed">This letter has already been guessed</string>
 </resources>

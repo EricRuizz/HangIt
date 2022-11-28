@@ -4,24 +4,404 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GameActivity"
-    android:background = "@drawable/hangit_gamescreen">
+    android:background="@drawable/gamebackground"
+    tools:context=".GameActivity">
+
+    <ImageView
+        android:id="@+id/lettersLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="280dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/leterlayout" />
 
     <Button
         android:id="@+id/letterA"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="37dp"
-        android:layout_marginBottom="32dp"
-        android:background="?android:attr/selectableItemBackground"
-        android:padding="30dp"
-        android:text="a"
-        android:textColor="#048dc9"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.01"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.49" />
+        android:layout_marginBottom="15dp"
+        android:foreground="@drawable/lettera"
+        android:shadowColor="#00FFFFFF"
+        android:text="Button"
+        app:layout_constraintBottom_toTopOf="@+id/letterG"
+        app:layout_constraintEnd_toStartOf="@+id/letterB"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/lettersLayout"
+        app:layout_constraintTop_toTopOf="@+id/lettersLayout"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/letterG"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="15dp"
+        android:foreground="@drawable/letterg"
+        android:shadowColor="#00FFFFFF"
+        android:text="Button"
+        app:layout_constraintBottom_toTopOf="@+id/letterM"
+        app:layout_constraintEnd_toStartOf="@+id/letterH"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/lettersLayout" />
+
+    <Button
+        android:id="@+id/letterH"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:foreground="@drawable/letterh"
+        android:shadowColor="#00FFFFFF"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/letterG"
+        app:layout_constraintEnd_toStartOf="@+id/letterI"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/letterG"
+        app:layout_constraintTop_toTopOf="@+id/letterG" />
+
+    <Button
+        android:id="@+id/letterJ"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:foreground="@drawable/letterj"
+        android:shadowColor="#00FFFFFF"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/letterG"
+        app:layout_constraintEnd_toStartOf="@+id/letterK"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/letterI"
+        app:layout_constraintTop_toTopOf="@+id/letterG" />
+
+    <Button
+        android:id="@+id/letterK"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:foreground="@drawable/letterk"
+        android:shadowColor="#00FFFFFF"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/letterG"
+        app:layout_constraintEnd_toStartOf="@+id/letterL"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/letterJ"
+        app:layout_constraintTop_toTopOf="@+id/letterG" />
+
+    <Button
+        android:id="@+id/letterL"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:foreground="@drawable/letterl"
+        android:shadowColor="#00FFFFFF"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/letterG"
+        app:layout_constraintEnd_toEndOf="@+id/lettersLayout"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/letterK"
+        app:layout_constraintTop_toTopOf="@+id/letterG" />
+
+    <Button
+        android:id="@+id/letterI"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:foreground="@drawable/letteri"
+        android:shadowColor="#00FFFFFF"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/letterG"
+        app:layout_constraintEnd_toStartOf="@+id/letterJ"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/letterH"
+        app:layout_constraintTop_toTopOf="@+id/letterG" />
+
+    <Button
+        android:id="@+id/letterQ"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:foreground="@drawable/letterq"
+        android:shadowColor="#00FFFFFF"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/letterM"
+        app:layout_constraintEnd_toStartOf="@+id/letterR"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/letterP"
+        app:layout_constraintTop_toTopOf="@+id/letterM" />
+
+    <Button
+        android:id="@+id/letterR"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:foreground="@drawable/letterr"
+        android:shadowColor="#00FFFFFF"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/letterM"
+        app:layout_constraintEnd_toEndOf="@+id/lettersLayout"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/letterQ"
+        app:layout_constraintTop_toTopOf="@+id/letterM" />
+
+    <Button
+        android:id="@+id/letterU"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:foreground="@drawable/letteru"
+        android:shadowColor="#00FFFFFF"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/letterS"
+        app:layout_constraintEnd_toStartOf="@+id/letterV"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/letterT"
+        app:layout_constraintTop_toTopOf="@+id/letterS" />
+
+    <Button
+        android:id="@+id/letterV"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:foreground="@drawable/letterv"
+        android:shadowColor="#00FFFFFF"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/letterS"
+        app:layout_constraintEnd_toStartOf="@+id/letterW"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/letterU"
+        app:layout_constraintTop_toTopOf="@+id/letterS" />
+
+    <Button
+        android:id="@+id/letterW"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:foreground="@drawable/letterw"
+        android:shadowColor="#00FFFFFF"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/letterS"
+        app:layout_constraintEnd_toStartOf="@+id/letterX"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/letterV"
+        app:layout_constraintTop_toTopOf="@+id/letterS" />
+
+    <Button
+        android:id="@+id/letterX"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:foreground="@drawable/letterx"
+        android:shadowColor="#00FFFFFF"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/letterS"
+        app:layout_constraintEnd_toEndOf="@+id/lettersLayout"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/letterW"
+        app:layout_constraintTop_toTopOf="@+id/letterS" />
+
+    <Button
+        android:id="@+id/letterT"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:foreground="@drawable/lettert"
+        android:shadowColor="#00FFFFFF"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/letterS"
+        app:layout_constraintEnd_toStartOf="@+id/letterU"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/letterS"
+        app:layout_constraintTop_toTopOf="@+id/letterS" />
+
+    <Button
+        android:id="@+id/letterP"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:foreground="@drawable/letterp"
+        android:shadowColor="#00FFFFFF"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/letterM"
+        app:layout_constraintEnd_toStartOf="@+id/letterQ"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/letterO"
+        app:layout_constraintTop_toTopOf="@+id/letterM" />
+
+    <Button
+        android:id="@+id/letterO"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:foreground="@drawable/lettero"
+        android:shadowColor="#00FFFFFF"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/letterM"
+        app:layout_constraintEnd_toStartOf="@+id/letterP"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/letterN"
+        app:layout_constraintTop_toTopOf="@+id/letterM" />
+
+    <Button
+        android:id="@+id/letterN"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:foreground="@drawable/lettern"
+        android:shadowColor="#00FFFFFF"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/letterM"
+        app:layout_constraintEnd_toStartOf="@+id/letterO"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/letterM"
+        app:layout_constraintTop_toTopOf="@+id/letterM" />
+
+    <Button
+        android:id="@+id/letterM"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="15dp"
+        android:foreground="@drawable/letterm"
+        android:shadowColor="#00FFFFFF"
+        android:text="Button"
+        app:layout_constraintBottom_toTopOf="@+id/letterS"
+        app:layout_constraintEnd_toStartOf="@+id/letterN"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/lettersLayout" />
+
+    <Button
+        android:id="@+id/letterS"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="15dp"
+        android:foreground="@drawable/letters"
+        android:shadowColor="#00FFFFFF"
+        android:text="Button"
+        app:layout_constraintBottom_toTopOf="@+id/letterY"
+        app:layout_constraintEnd_toStartOf="@+id/letterT"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/lettersLayout" />
+
+    <Button
+        android:id="@+id/letterY"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="110dp"
+        android:foreground="@drawable/lettery"
+        android:shadowColor="#00FFFFFF"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/lettersLayout"
+        app:layout_constraintEnd_toStartOf="@+id/letterZ"
+        app:layout_constraintHorizontal_bias="0.48"
+        app:layout_constraintStart_toStartOf="@+id/lettersLayout" />
+
+    <Button
+        android:id="@+id/letterZ"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:foreground="@drawable/letterz"
+        android:shadowColor="#00FFFFFF"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/letterY"
+        app:layout_constraintEnd_toStartOf="@+id/space"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/letterY"
+        app:layout_constraintTop_toTopOf="@+id/letterY" />
+
+    <Button
+        android:id="@+id/space"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="230dp"
+        android:layout_height="50dp"
+        android:foreground="@drawable/space"
+        android:shadowColor="#00FFFFFF"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/letterY"
+        app:layout_constraintEnd_toEndOf="@+id/lettersLayout"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/letterZ"
+        app:layout_constraintTop_toTopOf="@+id/letterY" />
+
+    <Button
+        android:id="@+id/letterB"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:foreground="@drawable/letterb"
+        android:shadowColor="#00FFFFFF"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/letterA"
+        app:layout_constraintEnd_toStartOf="@+id/letterC"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/letterA"
+        app:layout_constraintTop_toTopOf="@+id/letterA" />
+
+    <Button
+        android:id="@+id/letterC"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:foreground="@drawable/letterc"
+        android:shadowColor="#00FFFFFF"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/letterA"
+        app:layout_constraintEnd_toStartOf="@+id/letterD"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/letterB"
+        app:layout_constraintTop_toTopOf="@+id/letterA" />
+
+    <Button
+        android:id="@+id/letterD"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:foreground="@drawable/letterd"
+        android:shadowColor="#00FFFFFF"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/letterA"
+        app:layout_constraintEnd_toStartOf="@+id/letterE"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/letterC"
+        app:layout_constraintTop_toTopOf="@+id/letterA" />
+
+    <Button
+        android:id="@+id/letterE"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:foreground="@drawable/lettere"
+        android:shadowColor="#00FFFFFF"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/letterA"
+        app:layout_constraintEnd_toStartOf="@+id/letterF"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/letterD"
+        app:layout_constraintTop_toTopOf="@+id/letterA" />
+
+    <Button
+        android:id="@+id/letterF"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:foreground="@drawable/letterf"
+        android:shadowColor="#00FFFFFF"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/letterA"
+        app:layout_constraintEnd_toEndOf="@+id/lettersLayout"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/letterE"
+        app:layout_constraintTop_toTopOf="@+id/letterA"
+        app:layout_constraintVertical_bias="1.0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
