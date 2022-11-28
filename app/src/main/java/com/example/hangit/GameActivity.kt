@@ -208,26 +208,18 @@ class GameActivity : AppCompatActivity() {
                     //Save the game info and check if null
                     letterInfo = response.body() ?: ResponseGuessLetter("", "", false)
 
-                    if (!button.isClickable) {
-                        Toast.makeText(
-                            this@GameActivity,
-                            getString(R.string.already_guessed),
-                            Toast.LENGTH_SHORT
-                        ).show()
+
+                    if (response.body()?.correct == false) {
+                        //fer que es descarti la lletra o es posi en gris i caigui abre
+                        button.foreground.alpha = 140
 
                     } else {
-
-                        if (response.body()?.correct == false) {
-                            //fer que es descarti la lletra o es posi en gris i caigui abre
-                            button.foreground.alpha = 140
-
-                        } else {
-
-                        }
-
-                        //The user can not guess a letter that has ben guessed before
-                        button.isClickable = false
+                        //Add letter to the solution
                     }
+
+                    //The user can not guess a letter that has ben guessed before
+                    button.isClickable = false
+
                 }
 
                 override fun onFailure(call: Call<ResponseGuessLetter>, t: Throwable) {
