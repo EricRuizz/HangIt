@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.preference.PreferenceManager
 import android.view.View
 import android.widget.Toast
-import com.example.hangit.databinding.ActivityLoginBinding
 import com.example.hangit.databinding.ActivitySettingsBinding
 import com.google.firebase.FirebaseAppLifecycleListener
 import com.google.firebase.auth.FirebaseAuth
@@ -35,10 +34,13 @@ class SettingsActivity : AppCompatActivity() {
         val shared = PreferenceManager.getDefaultSharedPreferences(this)
         val editor = shared.edit()
 
-
         collection.document(firebaseAuth.currentUser?.email.toString()).get().addOnSuccessListener {
-            audioOn = it.getBoolean("audioOn") ?: shared.getBoolean("audioOn", true)
-            notificationOn = it.getBoolean("notificationOn") ?: shared.getBoolean("notificationOn", true)
+
+            audioOn = it.getBoolean("audioOn") ?: shared.getBoolean("audioOn", audioOn)
+            notificationOn = it.getBoolean("notificationOn") ?: shared.getBoolean(
+                "notificationOn",
+                notificationOn
+            )
 
         }.addOnFailureListener {
             Toast.makeText(
@@ -48,9 +50,9 @@ class SettingsActivity : AppCompatActivity() {
             ).show()
         }
 
-        if(firebaseAuth.currentUser == null) {
-            audioOn = shared.getBoolean("audioOn", true)
-            notificationOn = shared.getBoolean("notificationOn", true)
+        if (firebaseAuth.currentUser == null) {
+            audioOn = shared.getBoolean("audioOn", audioOn)
+            notificationOn = shared.getBoolean("notificationOn", notificationOn)
         }
 
         //Update audio
