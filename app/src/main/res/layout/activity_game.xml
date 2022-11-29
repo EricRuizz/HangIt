@@ -36,7 +36,7 @@
         app:layout_constraintBottom_toTopOf="@+id/lettersLayout"
         app:layout_constraintStart_toEndOf="@+id/tree"
         app:layout_constraintTop_toBottomOf="@+id/word"
-        app:layout_constraintVertical_bias="0.56" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <ImageView
         android:id="@+id/lettersLayout"
@@ -443,10 +443,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="64dp"
         android:layout_marginTop="80dp"
+        android:layout_marginBottom="16dp"
         android:text="TextView"
         android:textColor="#562310"
         android:textSize="34sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/treeRope"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.34"
         app:layout_constraintStart_toStartOf="@+id/tree"
