@@ -179,7 +179,7 @@ class GameActivity : AppCompatActivity() {
         }
 
         //Go to back the main screen
-        binding.goBackButtonGame.setOnClickListener {
+        binding.pauseButtonGame.setOnClickListener {
             val intent = Intent(this@GameActivity, MainActivity::class.java)
             startActivity(intent)
 
@@ -243,12 +243,13 @@ class GameActivity : AppCompatActivity() {
                             failGuess++
                             if (failGuess >= MAX_ERRORS) {
                                 getSolution(retrofit)
+                                gameOver = true
 
                                 //Wait 2 sec and go to the Lost Screen
                                 Handler().postDelayed(
                                     {
                                         val intent =
-                                            Intent(this@GameActivity, MainActivity::class.java)
+                                            Intent(this@GameActivity, YouLoseActivity::class.java)
                                         startActivity(intent)
                                         finish()
                                     }, 2000
@@ -264,12 +265,12 @@ class GameActivity : AppCompatActivity() {
 
                             //Check  if user has won
                             if (letterInfo.hangman == solutionInfo.solution) {
-
+                                gameOver = true
                                 //Wait 2 sec and go to the Win Screen
                                 Handler().postDelayed(
                                     {
                                         val intent =
-                                            Intent(this@GameActivity, MainActivity::class.java)
+                                            Intent(this@GameActivity, YouWinActivity::class.java)
                                         startActivity(intent)
                                         finish()
                                     }, 2000
@@ -335,8 +336,6 @@ class GameActivity : AppCompatActivity() {
                     gameInfo.hangman = solutionInfo.solution
                     binding.word.text = gameInfo.hangman
                 }
-
-                gameOver = true
 
             }
 
