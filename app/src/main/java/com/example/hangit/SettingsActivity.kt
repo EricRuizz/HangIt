@@ -3,6 +3,7 @@ package com.example.hangit
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.view.View
 import android.widget.Toast
 import com.example.hangit.databinding.ActivityLoginBinding
@@ -30,26 +31,14 @@ class SettingsActivity : AppCompatActivity() {
         FirebaseFirestore.setLoggingEnabled(true)
 
         val collection = firestore.collection("userConfiguration")
+
+        val shared = PreferenceManager.getDefaultSharedPreferences(this)
+        val editor = shared.edit()
+
+
         collection.document(firebaseAuth.currentUser?.email.toString()).get().addOnSuccessListener {
-            audioOn = it.getBoolean("audioOn") ?: true
-            if (audioOn) {
-                binding.audioTick.setVisibility(View.VISIBLE)
-                //set audio
-
-            } else {
-                binding.audioTick.setVisibility(View.GONE)
-                //deactivate audio
-            }
-
-            notificationOn = it.getBoolean("notificationOn") ?: true
-            if (notificationOn) {
-                binding.notificationsTick.setVisibility(View.VISIBLE)
-                //set notification
-
-            } else {
-                binding.notificationsTick.setVisibility(View.GONE)
-                //deactivate notification
-            }
+            audioOn = it.getBoolean("audioOn") ?: shared.getBoolean("audioOn", true)
+            notificationOn = it.getBoolean("notificationOn") ?: shared.getBoolean("notificationOn", true)
 
         }.addOnFailureListener {
             Toast.makeText(
@@ -59,6 +48,30 @@ class SettingsActivity : AppCompatActivity() {
             ).show()
         }
 
+        if(firebaseAuth.currentUser == null) {
+            audioOn = shared.getBoolean("audioOn", true)
+            notificationOn = shared.getBoolean("notificationOn", true)
+        }
+
+        //Update audio
+        if (audioOn) {
+            binding.audioTick.setVisibility(View.VISIBLE)
+            //set audio
+
+        } else {
+            binding.audioTick.setVisibility(View.GONE)
+            //deactivate audio
+        }
+
+        //Update notifications
+        if (notificationOn) {
+            binding.notificationsTick.setVisibility(View.VISIBLE)
+            //set notification
+
+        } else {
+            binding.notificationsTick.setVisibility(View.GONE)
+            //deactivate notification
+        }
 
         //Logout and go to login screen
         binding.logOutButton.setOnClickListener {
@@ -114,6 +127,9 @@ class SettingsActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+
+            editor.putBoolean("audioOn", audioOn)
+            editor.apply()
         }
 
         //Activate or Deactivate notifications
@@ -144,6 +160,9 @@ class SettingsActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+
+            editor.putBoolean("notificationOn", notificationOn)
+            editor.apply()
         }
     }
 
