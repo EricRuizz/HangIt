@@ -7,8 +7,10 @@ import android.preference.PreferenceManager
 import android.view.View
 import android.widget.Toast
 import com.example.hangit.databinding.ActivitySettingsBinding
-import com.google.firebase.FirebaseAppLifecycleListener
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 
 class SettingsActivity : AppCompatActivity() {
@@ -34,45 +36,87 @@ class SettingsActivity : AppCompatActivity() {
         val shared = PreferenceManager.getDefaultSharedPreferences(this)
         val editor = shared.edit()
 
-        collection.document(firebaseAuth.currentUser?.email.toString()).get().addOnSuccessListener {
+        if (firebaseAuth.currentUser != null) {
+            collection.document(firebaseAuth.currentUser?.email.toString()).get()
+                .addOnCompleteListener(object : OnCompleteListener<DocumentSnapshot> {
+                    override fun onComplete(task: Task<DocumentSnapshot>) {
+                        if (task.isSuccessful()) {
+                            val document = task.getResult()
+                            if (document.exists()) {
+                            } else {
+                                collection.document(firebaseAuth.currentUser?.email.toString())
+                                    .set(notificationOn to "notificationOn")
 
-            audioOn = it.getBoolean("audioOn") ?: shared.getBoolean("audioOn", audioOn)
-            notificationOn = it.getBoolean("notificationOn") ?: shared.getBoolean(
-                "notificationOn",
-                notificationOn
-            )
+                                collection.document(firebaseAuth.currentUser?.email.toString())
+                                    .set(audioOn to "audioOn")
+                            }
+                        }
+                    }
+                })
 
-        }.addOnFailureListener {
-            Toast.makeText(
-                this,
-                getString(R.string.error_connection),
-                Toast.LENGTH_SHORT
-            ).show()
-        }
+            collection.document(firebaseAuth.currentUser?.email.toString()).get()
+                .addOnSuccessListener {
+                    audioOn = it.getBoolean("audioOn") ?: true
+                    notificationOn = it.getBoolean("notificationOn") ?: true
 
-        if (firebaseAuth.currentUser == null) {
+                    if (firebaseAuth.currentUser == null) {
+                        audioOn = shared.getBoolean("audioOn", audioOn)
+                        notificationOn = shared.getBoolean("notificationOn", notificationOn)
+                    }
+
+                    //Update audio
+                    if (audioOn) {
+                        binding.audioTick.setVisibility(View.VISIBLE)
+                        //set audio
+
+                    } else {
+                        binding.audioTick.setVisibility(View.GONE)
+                        //deactivate audio
+                    }
+
+                    //Update notifications
+                    if (notificationOn) {
+                        binding.notificationsTick.setVisibility(View.VISIBLE)
+                        //set notification
+
+                    } else {
+                        binding.notificationsTick.setVisibility(View.GONE)
+                        //deactivate notification
+                    }
+
+                }.addOnFailureListener {
+                audioOn = shared.getBoolean("audioOn", audioOn)
+                notificationOn = shared.getBoolean("notificationOn", notificationOn)
+
+                Toast.makeText(
+                    this,
+                    getString(R.string.error_connection),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        } else {
             audioOn = shared.getBoolean("audioOn", audioOn)
             notificationOn = shared.getBoolean("notificationOn", notificationOn)
-        }
 
-        //Update audio
-        if (audioOn) {
-            binding.audioTick.setVisibility(View.VISIBLE)
-            //set audio
+            //Update audio
+            if (audioOn) {
+                binding.audioTick.setVisibility(View.VISIBLE)
+                //set audio
 
-        } else {
-            binding.audioTick.setVisibility(View.GONE)
-            //deactivate audio
-        }
+            } else {
+                binding.audioTick.setVisibility(View.GONE)
+                //deactivate audio
+            }
 
-        //Update notifications
-        if (notificationOn) {
-            binding.notificationsTick.setVisibility(View.VISIBLE)
-            //set notification
+            //Update notifications
+            if (notificationOn) {
+                binding.notificationsTick.setVisibility(View.VISIBLE)
+                //set notification
 
-        } else {
-            binding.notificationsTick.setVisibility(View.GONE)
-            //deactivate notification
+            } else {
+                binding.notificationsTick.setVisibility(View.GONE)
+                //deactivate notification
+            }
         }
 
         //Logout and go to login screen
@@ -81,7 +125,6 @@ class SettingsActivity : AppCompatActivity() {
                 firebaseAuth.signOut()
                 val intent = Intent(this@SettingsActivity, LoginActivity::class.java)
                 startActivity(intent)
-
                 finish()
             } else {
                 //Can't logout, user is a guest
@@ -97,7 +140,6 @@ class SettingsActivity : AppCompatActivity() {
         binding.goBackButtonSettings.setOnClickListener {
             val intent = Intent(this@SettingsActivity, MainActivity::class.java)
             startActivity(intent)
-
             finish()
         }
 
@@ -107,7 +149,6 @@ class SettingsActivity : AppCompatActivity() {
                 audioOn = true
                 binding.audioTick.setVisibility(View.VISIBLE)
                 //Activate music
-
 
             } else {
                 audioOn = false
@@ -140,8 +181,6 @@ class SettingsActivity : AppCompatActivity() {
                 notificationOn = true
                 binding.notificationsTick.setVisibility(View.VISIBLE)
                 //Activate notifications
-
-
             } else {
                 notificationOn = false
                 binding.notificationsTick.setVisibility(View.GONE)
@@ -167,6 +206,4 @@ class SettingsActivity : AppCompatActivity() {
             editor.apply()
         }
     }
-
-
 }
