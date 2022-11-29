@@ -27,6 +27,18 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
+        android:id="@+id/scoreGame"
+        android:layout_width="125dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/hangit_scoregame"
+        app:layout_constraintBottom_toTopOf="@+id/lettersLayout"
+        app:layout_constraintStart_toEndOf="@+id/tree"
+        app:layout_constraintTop_toBottomOf="@+id/word"
+        app:layout_constraintVertical_bias="0.56" />
+
+    <ImageView
         android:id="@+id/lettersLayout"
         android:layout_width="0dp"
         android:layout_height="350dp"
@@ -429,13 +441,50 @@
         android:id="@+id/word"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="80dp"
         android:text="TextView"
         android:textColor="#562310"
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.34"
+        app:layout_constraintStart_toStartOf="@+id/tree"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/tree"
+        android:layout_width="150dp"
+        android:layout_height="225dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/gametree"
+        app:layout_constraintBottom_toTopOf="@+id/lettersLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.23"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.82" />
+
+    <ImageView
+        android:id="@+id/treeRope"
+        android:layout_width="8dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="107dp"
+        android:background="@drawable/gamerope"
+        app:layout_constraintBottom_toBottomOf="@+id/tree"
+        app:layout_constraintStart_toStartOf="@+id/tree"
+        app:layout_constraintTop_toTopOf="@+id/tree"
+        app:layout_constraintVertical_bias="0.455" />
+
+    <ImageView
+        android:id="@+id/treeWheel"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="2dp"
+        android:background="@drawable/gametire"
+        app:layout_constraintEnd_toEndOf="@+id/treeRope"
+        app:layout_constraintStart_toStartOf="@+id/treeRope"
+        app:layout_constraintTop_toBottomOf="@+id/treeRope" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

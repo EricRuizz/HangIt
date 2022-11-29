@@ -4,6 +4,7 @@ package com.example.hangit
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.widget.Button
 import android.widget.Toast
 import com.example.hangit.databinding.ActivityGameBinding
@@ -21,6 +22,10 @@ class GameActivity : AppCompatActivity() {
     private lateinit var letterInfo: ResponseGuessLetter
     private lateinit var hintInfo: ResponseHint
     private lateinit var solutionInfo: ResponseSolution
+
+    private var failGuess: Int = 0
+    private val MAX_ERRORS: Int = 10
+    private var gameOver: Boolean = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -171,7 +176,6 @@ class GameActivity : AppCompatActivity() {
         //Player guessed letter SPACE
         binding.space.setOnClickListener {
             guessLetter(retrofit, " ", binding.space)
-            //getSolution(retrofit)
         }
 
         //Go to back the main screen
@@ -198,6 +202,9 @@ class GameActivity : AppCompatActivity() {
                 //Save the game info and check if null
                 gameInfo = response.body() ?: ResponseCreateGame("", "")
                 binding.word.text = gameInfo.hangman
+
+                getSolution(retrofit)
+                gameOver = false
             }
 
             override fun onFailure(call: Call<ResponseCreateGame>, t: Throwable) {
@@ -220,30 +227,65 @@ class GameActivity : AppCompatActivity() {
                     call: Call<ResponseGuessLetter>,
                     response: Response<ResponseGuessLetter>
                 ) {
-                    //Save the letter info and check if null
-                    letterInfo = response.body() ?: ResponseGuessLetter("", "", false)
-                    gameInfo.token = letterInfo.token
-                    gameInfo.hangman = letterInfo.hangman
+                    if (!gameOver) {
+                        //Save the letter info and check if null
+                        letterInfo = response.body() ?: ResponseGuessLetter("", "", false)
+                        gameInfo.token = letterInfo.token
+                        gameInfo.hangman = letterInfo.hangman
 
-                    if (response.body()?.correct == false) {
-                        // "tree animation" plays and sound
+                        if (response.body()?.correct == false) {
+                            // "tree animation" plays and sound
+                            binding.treeRope.scaleY += 0.2f
+                            binding.treeRope.y += 5.5f
+                            binding.treeWheel.y += 10.5f
+
+                            //Updated the number of errors and check if user lost
+                            failGuess++
+                            if (failGuess >= MAX_ERRORS) {
+                                getSolution(retrofit)
+
+                                //Wait 2 sec and go to the Lost Screen
+                                Handler().postDelayed(
+                                    {
+                                        val intent =
+                                            Intent(this@GameActivity, MainActivity::class.java)
+                                        startActivity(intent)
+                                        finish()
+                                    }, 2000
+                                )
+                            }
 
 
-                    } else {
-                        //Add sound
+                        } else {
+                            //Add sound
 
-                        //Add letter to the solution
-                        binding.word.text = letterInfo.hangman
+                            //Add letter to the solution
+                            binding.word.text = letterInfo.hangman
+
+                            //Check  if user has won
+                            if (letterInfo.hangman == solutionInfo.solution) {
+
+                                //Wait 2 sec and go to the Win Screen
+                                Handler().postDelayed(
+                                    {
+                                        val intent =
+                                            Intent(this@GameActivity, MainActivity::class.java)
+                                        startActivity(intent)
+                                        finish()
+                                    }, 2000
+                                )
+                            }
+                        }
+
+                        //We discard the letter
+                        button.background.alpha = 0
+                        button.text = " "
+                        button.foreground.alpha = 80
+
+                        //The user can not guess a letter that has been guessed before
+                        button.isClickable = false
+
                     }
-
-                    //We discard the letter
-                    button.background.alpha = 0
-                    button.text = " "
-                    button.foreground.alpha = 80
-
-                    //The user can not guess a letter that has been guessed before
-                    button.isClickable = false
-
                 }
 
                 override fun onFailure(call: Call<ResponseGuessLetter>, t: Throwable) {
@@ -288,9 +330,14 @@ class GameActivity : AppCompatActivity() {
             ) {
                 solutionInfo = response.body() ?: ResponseSolution("", "")
                 gameInfo.token = solutionInfo.token
-                gameInfo.hangman = solutionInfo.solution
 
-                binding.word.text = gameInfo.hangman
+                if (failGuess >= MAX_ERRORS) {
+                    gameInfo.hangman = solutionInfo.solution
+                    binding.word.text = gameInfo.hangman
+                }
+
+                gameOver = true
+
             }
 
             override fun onFailure(call: Call<ResponseSolution>, t: Throwable) {
@@ -304,7 +351,7 @@ class GameActivity : AppCompatActivity() {
         })
     }
 
-    fun createLetters(){
+    fun createLetters() {
 
         //We set the letter parameters
         binding.letterA.background.alpha = 0

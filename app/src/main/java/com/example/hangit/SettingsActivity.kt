@@ -30,6 +30,34 @@ class SettingsActivity : AppCompatActivity() {
         FirebaseFirestore.setLoggingEnabled(true)
 
         val collection = firestore.collection("userConfiguration")
+        collection.document(firebaseAuth.currentUser?.email.toString()).get().addOnSuccessListener {
+            audioOn = it.getBoolean("audioOn") ?: true
+            if (audioOn) {
+                binding.audioTick.setVisibility(View.VISIBLE)
+                //set audio
+
+            } else {
+                binding.audioTick.setVisibility(View.GONE)
+                //deactivate audio
+            }
+
+            notificationOn = it.getBoolean("notificationOn") ?: true
+            if (notificationOn) {
+                binding.notificationsTick.setVisibility(View.VISIBLE)
+                //set notification
+
+            } else {
+                binding.notificationsTick.setVisibility(View.GONE)
+                //deactivate notification
+            }
+
+        }.addOnFailureListener {
+            Toast.makeText(
+                this,
+                getString(R.string.error_connection),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
 
 
         //Logout and go to login screen
@@ -74,6 +102,9 @@ class SettingsActivity : AppCompatActivity() {
 
             if (firebaseAuth.currentUser != null) {
                 //Save Configuration
+                val collection = firestore.collection("userConfiguration")
+                collection.document(firebaseAuth.currentUser?.email.toString())
+                    .update("audioOn", audioOn)
 
             } else {
                 //Can't save configuration, user is a guest
@@ -101,6 +132,9 @@ class SettingsActivity : AppCompatActivity() {
 
             if (firebaseAuth.currentUser != null) {
                 //Save Configuration
+                val collection = firestore.collection("userConfiguration")
+                collection.document(firebaseAuth.currentUser?.email.toString())
+                    .update("notificationOn", notificationOn)
 
             } else {
                 //Can't save configuration, user is a guest

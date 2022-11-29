@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hangit.MainActivity
 import com.example.hangit.databinding.ActivityRankingBinding
-import com.example.hangit.particles.particle
 
 
 class RankingActivity : AppCompatActivity() {
