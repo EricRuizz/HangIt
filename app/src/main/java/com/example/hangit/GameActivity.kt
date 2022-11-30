@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.core.view.forEach
@@ -36,6 +37,8 @@ class GameActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         supportActionBar?.hide()
+        binding.pauseMenu.isActivated = false
+        binding.pauseMenu.setVisibility(View.GONE)
 
         val retrofit = Retrofit.Builder()
             .baseUrl("https://hangman-api.herokuapp.com")
@@ -179,12 +182,48 @@ class GameActivity : AppCompatActivity() {
             guessLetter(retrofit, " ", binding.letterSpace)
         }
 
-        //Go to back the main screen
+        //Go to back the pause screen
         binding.pauseButtonGame.setOnClickListener {
+            binding.root.forEach { it ->
+                if (it is Button) {
+                    it.isActivated = false
+                    it.setVisibility(View.GONE)
+                }
+            }
+            binding.pauseMenu.isActivated = true
+            binding.pauseMenu.setVisibility(View.VISIBLE)
+        }
+
+        //Restart game
+        binding.replayPauseButton.setOnClickListener {
+            binding.pauseMenu.isActivated = false
+            binding.pauseMenu.setVisibility(View.GONE)
+            it.setVisibility(View.VISIBLE)
+            val intent = Intent(this@GameActivity, GameActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        //Go back to main
+        binding.goBackPauseButton.setOnClickListener {
+            binding.pauseMenu.isActivated = false
+            binding.pauseMenu.setVisibility(View.GONE)
+            it.setVisibility(View.VISIBLE)
             val intent = Intent(this@GameActivity, MainActivity::class.java)
             startActivity(intent)
-
             finish()
+        }
+
+        //Continue game
+        binding.continuePauseButton.setOnClickListener {
+            binding.pauseMenu.isActivated = false
+            binding.pauseMenu.setVisibility(View.GONE)
+            binding.root.forEach { it ->
+                if (it is Button) {
+                    it.isActivated = true
+                    it.setVisibility(View.VISIBLE)
+                }
+            }
         }
     }
 
@@ -210,11 +249,6 @@ class GameActivity : AppCompatActivity() {
                         getString(R.string.error_connection),
                         Toast.LENGTH_SHORT
                     ).show()
-
-                    val intent = Intent(this@GameActivity, MainActivity::class.java)
-                    startActivity(intent)
-
-                    finish()
                 }
 
                 getSolution(retrofit)
@@ -374,6 +408,8 @@ class GameActivity : AppCompatActivity() {
                     it.text = " "
                     it.foreground.alpha = 255
                     it.isClickable = true
+                    it.setVisibility(View.VISIBLE)
+                    it.isActivated = true
                 }
             }
         }
