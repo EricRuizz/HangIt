@@ -64,59 +64,23 @@ class SettingsActivity : AppCompatActivity() {
                         notificationOn = shared.getBoolean("notificationOn", notificationOn)
                     }
 
-                    //Update audio
-                    if (audioOn) {
-                        binding.audioTick.setVisibility(View.VISIBLE)
-                        //set audio
-
-                    } else {
-                        binding.audioTick.setVisibility(View.GONE)
-                        //deactivate audio
-                    }
-
-                    //Update notifications
-                    if (notificationOn) {
-                        binding.notificationsTick.setVisibility(View.VISIBLE)
-                        //set notification
-
-                    } else {
-                        binding.notificationsTick.setVisibility(View.GONE)
-                        //deactivate notification
-                    }
+                    applyLoadedSettings()
 
                 }.addOnFailureListener {
-                audioOn = shared.getBoolean("audioOn", audioOn)
-                notificationOn = shared.getBoolean("notificationOn", notificationOn)
+                    audioOn = shared.getBoolean("audioOn", audioOn)
+                    notificationOn = shared.getBoolean("notificationOn", notificationOn)
 
-                Toast.makeText(
-                    this,
-                    getString(R.string.error_connection),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+                    Toast.makeText(
+                        this,
+                        getString(R.string.error_connection),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
         } else {
             audioOn = shared.getBoolean("audioOn", audioOn)
             notificationOn = shared.getBoolean("notificationOn", notificationOn)
 
-            //Update audio
-            if (audioOn) {
-                binding.audioTick.setVisibility(View.VISIBLE)
-                //set audio
-
-            } else {
-                binding.audioTick.setVisibility(View.GONE)
-                //deactivate audio
-            }
-
-            //Update notifications
-            if (notificationOn) {
-                binding.notificationsTick.setVisibility(View.VISIBLE)
-                //set notification
-
-            } else {
-                binding.notificationsTick.setVisibility(View.GONE)
-                //deactivate notification
-            }
+            applyLoadedSettings()
         }
 
         //Logout and go to login screen
@@ -204,6 +168,28 @@ class SettingsActivity : AppCompatActivity() {
 
             editor.putBoolean("notificationOn", notificationOn)
             editor.apply()
+        }
+    }
+
+    fun applyLoadedSettings() {
+        //Update audio
+        if (audioOn) {
+            binding.audioTick.setVisibility(View.VISIBLE)
+            //set audio
+
+        } else {
+            binding.audioTick.setVisibility(View.GONE)
+            //deactivate audio
+        }
+
+        //Update notifications
+        if (notificationOn) {
+            binding.notificationsTick.setVisibility(View.VISIBLE)
+            //set notification
+
+        } else {
+            binding.notificationsTick.setVisibility(View.GONE)
+            //deactivate notification
         }
     }
 }

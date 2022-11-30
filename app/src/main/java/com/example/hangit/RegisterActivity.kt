@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.example.hangit.databinding.ActivityLoginBinding
 import com.example.hangit.databinding.ActivityRegisterBinding
 import com.google.firebase.auth.FirebaseAuth
 

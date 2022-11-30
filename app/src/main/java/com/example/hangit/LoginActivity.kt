@@ -3,13 +3,9 @@ package com.example.hangit
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import com.example.hangit.databinding.ActivityLoginBinding
-import com.google.firebase.auth.FederatedAuthProvider
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.OAuthProvider
-import kotlinx.coroutines.*
 
 class LoginActivity : AppCompatActivity() {
 
