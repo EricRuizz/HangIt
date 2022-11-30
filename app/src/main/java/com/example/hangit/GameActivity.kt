@@ -204,8 +204,22 @@ class GameActivity : AppCompatActivity() {
                 gameInfo = response.body() ?: ResponseCreateGame("", "")
                 binding.word.text = gameInfo.hangman
 
+                if (gameInfo.hangman == "") {
+                    Toast.makeText(
+                        this@GameActivity,
+                        getString(R.string.error_connection),
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    val intent = Intent(this@GameActivity, MainActivity::class.java)
+                    startActivity(intent)
+
+                    finish()
+                }
+
                 getSolution(retrofit)
                 gameOver = false
+
             }
 
             override fun onFailure(call: Call<ResponseCreateGame>, t: Throwable) {
@@ -355,7 +369,7 @@ class GameActivity : AppCompatActivity() {
         //We set the letter parameters
         binding.root.forEach { it ->
             if (it is Button) {
-                if(it.text == "Button") {
+                if (it.text == "Button") {
                     it.background.alpha = 0
                     it.text = " "
                     it.foreground.alpha = 255
