@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.widget.Button
 import android.widget.Toast
+import androidx.core.view.forEach
 import com.example.hangit.databinding.ActivityGameBinding
 import com.example.hangit.hangman.*
 import retrofit2.Call
@@ -174,8 +175,8 @@ class GameActivity : AppCompatActivity() {
         }
 
         //Player guessed letter SPACE
-        binding.space.setOnClickListener {
-            guessLetter(retrofit, " ", binding.space)
+        binding.letterSpace.setOnClickListener {
+            guessLetter(retrofit, " ", binding.letterSpace)
         }
 
         //Go to back the main screen
@@ -351,143 +352,17 @@ class GameActivity : AppCompatActivity() {
     }
 
     fun createLetters() {
-
         //We set the letter parameters
-        binding.letterA.background.alpha = 0
-        binding.letterA.text = " "
-        binding.letterA.foreground.alpha = 255
-        binding.letterA.isClickable = true
-
-        binding.letterB.background.alpha = 0
-        binding.letterB.text = " "
-        binding.letterB.foreground.alpha = 255
-        binding.letterB.isClickable = true
-
-        binding.letterC.background.alpha = 0
-        binding.letterC.text = " "
-        binding.letterC.foreground.alpha = 255
-        binding.letterC.isClickable = true
-
-        binding.letterD.background.alpha = 0
-        binding.letterD.text = " "
-        binding.letterD.foreground.alpha = 255
-        binding.letterD.isClickable = true
-
-        binding.letterE.background.alpha = 0
-        binding.letterE.text = " "
-        binding.letterE.foreground.alpha = 255
-        binding.letterE.isClickable = true
-
-        binding.letterF.background.alpha = 0
-        binding.letterF.text = " "
-        binding.letterF.foreground.alpha = 255
-        binding.letterF.isClickable = true
-
-        binding.letterG.background.alpha = 0
-        binding.letterG.text = " "
-        binding.letterG.foreground.alpha = 255
-        binding.letterG.isClickable = true
-
-        binding.letterH.background.alpha = 0
-        binding.letterH.text = " "
-        binding.letterH.foreground.alpha = 255
-        binding.letterH.isClickable = true
-
-        binding.letterI.background.alpha = 0
-        binding.letterI.text = " "
-        binding.letterI.foreground.alpha = 255
-        binding.letterI.isClickable = true
-
-        binding.letterJ.background.alpha = 0
-        binding.letterJ.text = " "
-        binding.letterJ.foreground.alpha = 255
-        binding.letterJ.isClickable = true
-
-        binding.letterK.background.alpha = 0
-        binding.letterK.text = " "
-        binding.letterK.foreground.alpha = 255
-        binding.letterK.isClickable = true
-
-        binding.letterL.background.alpha = 0
-        binding.letterL.text = " "
-        binding.letterL.foreground.alpha = 255
-        binding.letterL.isClickable = true
-
-        binding.letterM.background.alpha = 0
-        binding.letterM.text = " "
-        binding.letterM.foreground.alpha = 255
-        binding.letterM.isClickable = true
-
-        binding.letterN.background.alpha = 0
-        binding.letterN.text = " "
-        binding.letterN.foreground.alpha = 255
-        binding.letterN.isClickable = true
-
-        binding.letterO.background.alpha = 0
-        binding.letterO.text = " "
-        binding.letterO.foreground.alpha = 255
-        binding.letterO.isClickable = true
-
-        binding.letterP.background.alpha = 0
-        binding.letterP.text = " "
-        binding.letterP.foreground.alpha = 255
-        binding.letterP.isClickable = true
-
-        binding.letterQ.background.alpha = 0
-        binding.letterQ.text = " "
-        binding.letterQ.foreground.alpha = 255
-        binding.letterQ.isClickable = true
-
-        binding.letterR.background.alpha = 0
-        binding.letterR.text = " "
-        binding.letterR.foreground.alpha = 255
-        binding.letterR.isClickable = true
-
-        binding.letterS.background.alpha = 0
-        binding.letterS.text = " "
-        binding.letterS.foreground.alpha = 255
-        binding.letterS.isClickable = true
-
-        binding.letterT.background.alpha = 0
-        binding.letterT.text = " "
-        binding.letterT.foreground.alpha = 255
-        binding.letterT.isClickable = true
-
-        binding.letterU.background.alpha = 0
-        binding.letterU.text = " "
-        binding.letterU.foreground.alpha = 255
-        binding.letterU.isClickable = true
-
-        binding.letterV.background.alpha = 0
-        binding.letterV.text = " "
-        binding.letterV.foreground.alpha = 255
-        binding.letterV.isClickable = true
-
-        binding.letterW.background.alpha = 0
-        binding.letterW.text = " "
-        binding.letterW.foreground.alpha = 255
-        binding.letterW.isClickable = true
-
-        binding.letterX.background.alpha = 0
-        binding.letterX.text = " "
-        binding.letterX.foreground.alpha = 255
-        binding.letterX.isClickable = true
-
-        binding.letterY.background.alpha = 0
-        binding.letterY.text = " "
-        binding.letterY.foreground.alpha = 255
-        binding.letterY.isClickable = true
-
-        binding.letterZ.background.alpha = 0
-        binding.letterZ.text = " "
-        binding.letterZ.foreground.alpha = 255
-        binding.letterZ.isClickable = true
-
-        binding.space.background.alpha = 0
-        binding.space.text = " "
-        binding.space.foreground.alpha = 255
-        binding.space.isClickable = true
-
+        binding.root.forEach { it ->
+            if (it is Button) {
+                if(it.text == "Button") {
+                    it.background.alpha = 0
+                    it.text = " "
+                    it.foreground.alpha = 255
+                    it.isClickable = true
+                }
+            }
+        }
 
     }
 }
