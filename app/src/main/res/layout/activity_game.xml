@@ -504,13 +504,14 @@
 
     <TextView
         android:id="@+id/timeText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_width="96dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/goodmarker"
         android:text="TextView"
         android:textColor="#69BCB7"
+        android:textSize="34sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -518,7 +519,9 @@
         android:id="@+id/pauseMenu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/hangit_pause_1">
+        android:background="@drawable/hangit_pause_1"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
         <Button
             android:id="@+id/goBackPauseButton"

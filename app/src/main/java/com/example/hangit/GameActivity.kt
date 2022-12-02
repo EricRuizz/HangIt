@@ -33,7 +33,8 @@ class GameActivity : AppCompatActivity() {
     private var gameOver: Boolean = false
 
     //private lateinit var timer: Timer
-    lateinit var timer: CountDownTimer
+    private lateinit var timer: CountDownTimer
+    private var millisLeft: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -54,7 +55,8 @@ class GameActivity : AppCompatActivity() {
 
         timer = object: CountDownTimer(60000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                binding.timeText.text = millisUntilFinished.toString()
+                binding.timeText.text = (millisUntilFinished/1000).toString()
+                millisLeft = millisUntilFinished
             }
 
             override fun onFinish() {
@@ -212,7 +214,7 @@ class GameActivity : AppCompatActivity() {
             guessLetter(retrofit, " ", binding.letterSpace)
         }
 
-        //Go to back the pause screen
+        //Go to the pause screen
         binding.pauseButtonGame.setOnClickListener {
             binding.root.forEach { it ->
                 if (it is Button) {
@@ -222,6 +224,8 @@ class GameActivity : AppCompatActivity() {
             }
             binding.pauseMenu.isActivated = true
             binding.pauseMenu.setVisibility(View.VISIBLE)
+
+            timer.cancel()
         }
 
         //Restart game
@@ -253,6 +257,26 @@ class GameActivity : AppCompatActivity() {
                     it.isActivated = true
                     it.setVisibility(View.VISIBLE)
                 }
+
+                timer = object: CountDownTimer(millisLeft, 1000) {
+                    override fun onTick(millisUntilFinished: Long) {
+                        binding.timeText.text = (millisUntilFinished/1000).toString()
+                        millisLeft = millisUntilFinished
+                    }
+
+                    override fun onFinish() {
+                        //Wait 2 sec and go to the Lost Screen
+                        Handler().postDelayed(
+                            {
+                                val intent =
+                                    Intent(this@GameActivity, YouLoseActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                            }, 2000
+                        )
+                    }
+                }
+                timer.start()
             }
         }
     }
