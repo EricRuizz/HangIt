@@ -4,6 +4,7 @@ package com.example.hangit
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.os.Handler
 import android.view.View
 import android.widget.Button
@@ -17,6 +18,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
+import kotlin.concurrent.timerTask
 
 class GameActivity : AppCompatActivity() {
 
@@ -30,8 +32,8 @@ class GameActivity : AppCompatActivity() {
     private val MAX_ERRORS: Int = 10
     private var gameOver: Boolean = false
 
-    private lateinit var timer: Timer
-
+    //private lateinit var timer: Timer
+    lateinit var timer: CountDownTimer
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -50,7 +52,24 @@ class GameActivity : AppCompatActivity() {
 
         createGame(retrofit)
 
+        timer = object: CountDownTimer(60000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                binding.timeText.text = millisUntilFinished.toString()
+            }
 
+            override fun onFinish() {
+                //Wait 2 sec and go to the Lost Screen
+                Handler().postDelayed(
+                    {
+                        val intent =
+                            Intent(this@GameActivity, YouLoseActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }, 2000
+                )
+            }
+        }
+        timer.start()
 
         //Player guessed letter A
         binding.letterA.setOnClickListener {

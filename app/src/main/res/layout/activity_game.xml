@@ -502,6 +502,18 @@
         app:layout_constraintTop_toBottomOf="@+id/treeRope"
         app:layout_constraintVertical_bias="0.583" />
 
+    <TextView
+        android:id="@+id/timeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/goodmarker"
+        android:text="TextView"
+        android:textColor="#69BCB7"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/pauseMenu"
         android:layout_width="match_parent"
@@ -585,6 +597,7 @@
             app:layout_constraintStart_toEndOf="@+id/goBackPauseButton"
             app:rippleColor="#00FFFFFF"
             app:strokeColor="#00FFFFFF" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
