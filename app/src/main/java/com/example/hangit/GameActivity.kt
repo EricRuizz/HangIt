@@ -49,12 +49,18 @@ class GameActivity : AppCompatActivity() {
 
         //Player guessed letter A
         binding.letterA.setOnClickListener {
-            guessLetter(retrofit, "A", binding.letterA)
+            //guessLetter(retrofit, "A", binding.letterA)
+            val intent = Intent(this@GameActivity, YouWinActivity::class.java)
+            startActivity(intent)
+            finish()
         }
 
         //Player guessed letter B
         binding.letterB.setOnClickListener {
-            guessLetter(retrofit, "B", binding.letterB)
+            //guessLetter(retrofit, "B", binding.letterB)
+            val intent = Intent(this@GameActivity, YouLoseActivity::class.java)
+            startActivity(intent)
+            finish()
         }
 
         //Player guessed letter C
