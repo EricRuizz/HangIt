@@ -16,6 +16,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.*
 
 class GameActivity : AppCompatActivity() {
 
@@ -28,6 +29,8 @@ class GameActivity : AppCompatActivity() {
     private var failGuess: Int = 0
     private val MAX_ERRORS: Int = 10
     private var gameOver: Boolean = false
+
+    private lateinit var timer: Timer
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,6 +49,8 @@ class GameActivity : AppCompatActivity() {
             .build()
 
         createGame(retrofit)
+
+
 
         //Player guessed letter A
         binding.letterA.setOnClickListener {
