@@ -2,6 +2,7 @@ package com.example.hangit.ranking
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hangit.MainActivity
 import com.example.hangit.databinding.ActivityRankingBinding
@@ -11,6 +12,7 @@ class RankingActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRankingBinding
     private val adapter = RankingAdapter(this)
 
+    private val rankingViewModel: RankingViewModel by viewModels()
     //Hardcode user list
     private var users = arrayListOf<User>().apply {
         add(User("Pochita", 3500))
