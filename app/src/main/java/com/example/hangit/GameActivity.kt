@@ -47,15 +47,15 @@ class GameActivity : AppCompatActivity() {
         binding.pauseMenu.setVisibility(View.GONE)
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://hangman-api.herokuapp.com")
+            .baseUrl("http://hangman.enti.cat:5002")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
         createGame(retrofit)
 
-        timer = object: CountDownTimer(60000, 1000) {
+        timer = object : CountDownTimer(60000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                binding.timeText.text = (millisUntilFinished/1000).toString()
+                binding.timeText.text = (millisUntilFinished / 1000).toString()
                 millisLeft = millisUntilFinished
             }
 
@@ -75,18 +75,12 @@ class GameActivity : AppCompatActivity() {
 
         //Player guessed letter A
         binding.letterA.setOnClickListener {
-            //guessLetter(retrofit, "A", binding.letterA)
-            val intent = Intent(this@GameActivity, YouWinActivity::class.java)
-            startActivity(intent)
-            finish()
+            guessLetter(retrofit, "A", binding.letterA)
         }
 
         //Player guessed letter B
         binding.letterB.setOnClickListener {
-            //guessLetter(retrofit, "B", binding.letterB)
-            val intent = Intent(this@GameActivity, YouLoseActivity::class.java)
-            startActivity(intent)
-            finish()
+            guessLetter(retrofit, "B", binding.letterB)
         }
 
         //Player guessed letter C
@@ -258,9 +252,9 @@ class GameActivity : AppCompatActivity() {
                     it.setVisibility(View.VISIBLE)
                 }
 
-                timer = object: CountDownTimer(millisLeft, 1000) {
+                timer = object : CountDownTimer(millisLeft, 1000) {
                     override fun onTick(millisUntilFinished: Long) {
-                        binding.timeText.text = (millisUntilFinished/1000).toString()
+                        binding.timeText.text = (millisUntilFinished / 1000).toString()
                         millisLeft = millisUntilFinished
                     }
 
