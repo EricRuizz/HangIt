@@ -515,11 +515,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/scoreText"
+        android:layout_width="96dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="96dp"
+        android:fontFamily="@font/goodmarker"
+        android:text="TextView"
+        android:textColor="#69BCB7"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="@+id/scoreGame"
+        app:layout_constraintEnd_toEndOf="@+id/scoreGame"
+        app:layout_constraintStart_toStartOf="@+id/scoreGame"
+        app:layout_constraintTop_toTopOf="@+id/scoreGame" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/pauseMenu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/hangit_pause_1"
+        android:visibility="gone"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp">
 

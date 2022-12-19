@@ -32,11 +32,14 @@ class GameActivity : AppCompatActivity() {
     private val MAX_ERRORS: Int = 10
     private var gameOver: Boolean = false
 
+    private var score: Int = 0
+
     //private lateinit var timer: Timer
     private lateinit var timer: CountDownTimer
     private var millisLeft: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        score = 0
 
         binding = ActivityGameBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
@@ -331,6 +334,11 @@ class GameActivity : AppCompatActivity() {
                         gameInfo.hangman = letterInfo.hangman
 
                         if (response.body()?.correct == false) {
+                            //Decrease score
+                            score -= 50
+                            if(score < 0) score = 0
+                            binding.scoreText.text = score.toString()
+
                             // "tree animation" plays and sound
                             binding.treeRope.scaleY += 0.2f
                             binding.treeRope.y += 5.5f
@@ -355,6 +363,10 @@ class GameActivity : AppCompatActivity() {
 
 
                         } else {
+                            //Add score
+                            score += (15 * (millisLeft / 1000) as Int)
+                            binding.scoreText.text = score.toString()
+
                             //Add sound
 
                             //Add letter to the solution
