@@ -6,12 +6,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler
+import android.preference.PreferenceManager
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.core.view.forEach
 import com.example.hangit.databinding.ActivityGameBinding
 import com.example.hangit.hangman.*
+import com.google.firebase.firestore.FirebaseFirestore
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,6 +27,7 @@ class GameActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGameBinding
     private lateinit var gameInfo: ResponseCreateGame
     private lateinit var letterInfo: ResponseGuessLetter
+    private lateinit var firestore: FirebaseFirestore
     private lateinit var hintInfo: ResponseHint
     private lateinit var solutionInfo: ResponseSolution
 
@@ -38,8 +41,13 @@ class GameActivity : AppCompatActivity() {
     private lateinit var timer: CountDownTimer
     private var millisLeft: Long = 0
 
+    val shared = PreferenceManager.getDefaultSharedPreferences(this)
+    val editor = shared.edit()
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
         score = 0
+        binding.scoreText.text = score.toString()
 
         binding = ActivityGameBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
@@ -348,6 +356,10 @@ class GameActivity : AppCompatActivity() {
                             failGuess++
                             if (failGuess >= MAX_ERRORS) {
                                 getSolution(retrofit)
+
+                                editor.putInt("score", score)
+                                editor.apply()
+
                                 gameOver = true
 
                                 //Wait 2 sec and go to the Lost Screen
@@ -364,7 +376,7 @@ class GameActivity : AppCompatActivity() {
 
                         } else {
                             //Add score
-                            score += (15 * (millisLeft / 1000) as Int)
+                            score += (15 * (millisLeft / 1000).toInt())
                             binding.scoreText.text = score.toString()
 
                             //Add sound
@@ -374,6 +386,10 @@ class GameActivity : AppCompatActivity() {
 
                             //Check  if user has won
                             if (letterInfo.hangman == solutionInfo.solution) {
+
+                                editor.putInt("score", score)
+                                editor.apply()
+
                                 gameOver = true
                                 //Wait 2 sec and go to the Win Screen
                                 Handler().postDelayed(
