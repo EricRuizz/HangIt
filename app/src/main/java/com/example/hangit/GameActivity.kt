@@ -230,7 +230,7 @@ class GameActivity : AppCompatActivity() {
             binding.pauseMenu.isActivated = true
             binding.pauseMenu.setVisibility(View.VISIBLE)
 
-            timer.cancel()
+            timer.cancel() // no va?
         }
 
         //Restart game

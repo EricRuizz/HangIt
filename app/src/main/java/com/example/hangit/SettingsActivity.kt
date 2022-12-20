@@ -1,11 +1,18 @@
 package com.example.hangit
 
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.view.View
 import android.widget.Toast
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import com.example.hangit.databinding.ActivitySettingsBinding
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
@@ -20,11 +27,29 @@ class SettingsActivity : AppCompatActivity() {
     private var audioOn: Boolean = true
     private var notificationOn: Boolean = true
 
+    companion object {
+        const val CHANNEL_ID = "NOTIFICATIONS_CHANNEL_CONFIG"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //Create channel notifications
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel =
+                NotificationChannel(
+                    CHANNEL_ID,
+                    "PublicityNotifications",
+                    NotificationManager.IMPORTANCE_LOW
+                )
+
+            val manager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            manager.createNotificationChannel(channel)
+        }
 
         firebaseAuth = FirebaseAuth.getInstance()
 
@@ -141,10 +166,22 @@ class SettingsActivity : AppCompatActivity() {
 
         //Activate or Deactivate notifications
         binding.notificationButton.setOnClickListener {
+
             if (!notificationOn) {
                 notificationOn = true
                 binding.notificationsTick.setVisibility(View.VISIBLE)
+
                 //Activate notifications
+                //Posar timer que cada x temps surti noti i posarho a una activitat de service
+                val builder = NotificationCompat.Builder(this, CHANNEL_ID)
+                    .setSmallIcon(R.drawable.gametire)
+                    .setContentTitle("Hang It!")
+                    .setContentText("Come to play! We miss you!").build()
+
+                with(NotificationManagerCompat.from(this)) {
+                    notify(System.currentTimeMillis().toInt(), builder)
+                }
+
             } else {
                 notificationOn = false
                 binding.notificationsTick.setVisibility(View.GONE)

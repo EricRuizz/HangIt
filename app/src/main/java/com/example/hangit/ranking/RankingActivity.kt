@@ -13,6 +13,7 @@ class RankingActivity : AppCompatActivity() {
     private val adapter = RankingAdapter(this)
 
     private val rankingViewModel: RankingViewModel by viewModels()
+
     //Hardcode user list
     private var users = arrayListOf<User>().apply {
         add(User("Pochita", 3500))
