@@ -1,7 +1,11 @@
 package com.example.hangit
 
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -10,15 +14,20 @@ import android.preference.PreferenceManager
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.forEach
 import com.example.hangit.databinding.ActivityGameBinding
 import com.example.hangit.hangman.*
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import com.google.firebase.firestore.FirebaseFirestore
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+
 import java.util.*
 import kotlin.concurrent.timerTask
 
@@ -34,7 +43,8 @@ class GameActivity : AppCompatActivity() {
     private var failGuess: Int = 0
     private val MAX_ERRORS: Int = 10
     private var gameOver: Boolean = false
-
+    private var hasSeenAd: Boolean = false
+    private var notificationOn: Boolean = false
     private var score: Int = 0
 
     //private lateinit var timer: Timer
@@ -44,6 +54,10 @@ class GameActivity : AppCompatActivity() {
     val shared = PreferenceManager.getDefaultSharedPreferences(this)
     val editor = shared.edit()
 
+    companion object {
+        const val CHANNEL_ID = "NOTIFICATIONS_CHANNEL_GAME"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         score = 0
@@ -52,6 +66,20 @@ class GameActivity : AppCompatActivity() {
         binding = ActivityGameBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        //Create channel notifications
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel =
+                NotificationChannel(
+                    SettingsActivity.CHANNEL_ID,
+                    "VictoryNotifications",
+                    NotificationManager.IMPORTANCE_LOW
+                )
+
+            val manager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            manager.createNotificationChannel(channel)
+        }
 
         supportActionBar?.hide()
         binding.pauseMenu.isActivated = false
@@ -344,7 +372,7 @@ class GameActivity : AppCompatActivity() {
                         if (response.body()?.correct == false) {
                             //Decrease score
                             score -= 50
-                            if(score < 0) score = 0
+                            if (score < 0) score = 0
                             binding.scoreText.text = score.toString()
 
                             // "tree animation" plays and sound
@@ -355,22 +383,42 @@ class GameActivity : AppCompatActivity() {
                             //Updated the number of errors and check if user lost
                             failGuess++
                             if (failGuess >= MAX_ERRORS) {
-                                getSolution(retrofit)
 
-                                editor.putInt("score", score)
-                                editor.apply()
+                                if (!hasSeenAd) {
+                                    hasSeenAd = true
+                                    binding.adMenu.setVisibility(View.VISIBLE)
+                                    binding.acceptAdButton.setOnClickListener {
+                                        binding.gameAdView.setVisibility(View.VISIBLE)
+                                        MobileAds.initialize(this@GameActivity)
+                                        val request = AdRequest.Builder().build()
+                                        binding.gameAdView.loadAd(request)
+                                        //Quan acaba
+                                        binding.gameAdView.setVisibility(View.GONE)
+                                        failGuess--
+                                    }
+                                    binding.notAcceptAdButton.setOnClickListener {
+                                        gameOver = true
+                                        binding.adMenu.setVisibility(View.GONE)
+                                    }
+                                }
+                                if (gameOver) {
+                                    getSolution(retrofit)
+                                    editor.putInt("score", score)
+                                    editor.apply()
 
-                                gameOver = true
-
-                                //Wait 2 sec and go to the Lost Screen
-                                Handler().postDelayed(
-                                    {
-                                        val intent =
-                                            Intent(this@GameActivity, YouLoseActivity::class.java)
-                                        startActivity(intent)
-                                        finish()
-                                    }, 2000
-                                )
+                                    //Wait 2 sec and go to the Lost Screen
+                                    Handler().postDelayed(
+                                        {
+                                            val intent =
+                                                Intent(
+                                                    this@GameActivity,
+                                                    YouLoseActivity::class.java
+                                                )
+                                            startActivity(intent)
+                                            finish()
+                                        }, 2000
+                                    )
+                                }
                             }
 
 
@@ -389,6 +437,17 @@ class GameActivity : AppCompatActivity() {
 
                                 editor.putInt("score", score)
                                 editor.apply()
+
+                                if (shared.getBoolean("notificationOn", notificationOn)) {
+                                    val builder = NotificationCompat.Builder(this@GameActivity, GameActivity.CHANNEL_ID)
+                                        .setSmallIcon(R.drawable.gametree)
+                                        .setContentTitle("Hang It!")
+                                        .setContentText("CONGRATS YOU WIN 🥵 ").build()
+
+                                    with(NotificationManagerCompat.from(this@GameActivity)) {
+                                        notify(System.currentTimeMillis().toInt(), builder)
+                                    }
+                                }
 
                                 gameOver = true
                                 //Wait 2 sec and go to the Win Screen

@@ -17,7 +17,10 @@ class AdActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        MobileAds.initialize(this)
+        //Play Ad
+        MobileAds.initialize(this@AdActivity)
+        val request = AdRequest.Builder().build()
+        binding.adView.loadAd(request)
 
         //Go to back the main screen
         binding.goBackButtonAD.setOnClickListener {
@@ -26,14 +29,6 @@ class AdActivity : AppCompatActivity() {
 
             finish()
         }
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        val request = AdRequest.Builder().build()
-        binding.adView.loadAd(request)
 
     }
 }

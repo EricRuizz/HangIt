@@ -172,11 +172,10 @@ class SettingsActivity : AppCompatActivity() {
                 binding.notificationsTick.setVisibility(View.VISIBLE)
 
                 //Activate notifications
-                //Posar timer que cada x temps surti noti i posarho a una activitat de service
                 val builder = NotificationCompat.Builder(this, CHANNEL_ID)
-                    .setSmallIcon(R.drawable.gametire)
+                    .setSmallIcon(R.drawable.gametree)
                     .setContentTitle("Hang It!")
-                    .setContentText("Come to play! We miss you!").build()
+                    .setContentText("Now you will recieve notifications like this 🥵 ").build()
 
                 with(NotificationManagerCompat.from(this)) {
                     notify(System.currentTimeMillis().toInt(), builder)
@@ -185,7 +184,6 @@ class SettingsActivity : AppCompatActivity() {
             } else {
                 notificationOn = false
                 binding.notificationsTick.setVisibility(View.GONE)
-                //Deactivate notifications
             }
 
             if (firebaseAuth.currentUser != null) {
