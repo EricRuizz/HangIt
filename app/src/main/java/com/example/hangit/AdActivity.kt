@@ -21,6 +21,7 @@ class AdActivity : AppCompatActivity() {
         MobileAds.initialize(this@AdActivity)
         val request = AdRequest.Builder().build()
         binding.adView.loadAd(request)
+        binding.adView2.loadAd(request)
 
         //Go to back the main screen
         binding.goBackButtonAD.setOnClickListener {
