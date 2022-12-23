@@ -5,6 +5,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -19,8 +20,9 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.forEach
 import com.example.hangit.databinding.ActivityGameBinding
 import com.example.hangit.hangman.*
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.*
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.firebase.firestore.FirebaseFirestore
 import retrofit2.Call
 import retrofit2.Callback
@@ -45,14 +47,15 @@ class GameActivity : AppCompatActivity() {
     private var gameOver: Boolean = false
     private var hasSeenAd: Boolean = false
     private var notificationOn: Boolean = false
+    private var ad: InterstitialAd? = null
     private var score: Int = 0
 
     //private lateinit var timer: Timer
     private lateinit var timer: CountDownTimer
     private var millisLeft: Long = 0
 
-    val shared = PreferenceManager.getDefaultSharedPreferences(this)
-    val editor = shared.edit()
+    lateinit var shared: SharedPreferences
+    lateinit var editor: SharedPreferences.Editor
 
     companion object {
         const val CHANNEL_ID = "NOTIFICATIONS_CHANNEL_GAME"
@@ -61,11 +64,15 @@ class GameActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         score = 0
-        binding.scoreText.text = score.toString()
 
         binding = ActivityGameBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        binding.scoreText.text = score.toString()
+
+        shared = PreferenceManager.getDefaultSharedPreferences(this)
+        editor = shared.edit()
 
         //Create channel notifications
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -86,7 +93,7 @@ class GameActivity : AppCompatActivity() {
         binding.pauseMenu.setVisibility(View.GONE)
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://hangman.enti.cat:5002")
+            .baseUrl("http://hangman.enti.cat:5002/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
@@ -388,12 +395,28 @@ class GameActivity : AppCompatActivity() {
                                     hasSeenAd = true
                                     binding.adMenu.setVisibility(View.VISIBLE)
                                     binding.acceptAdButton.setOnClickListener {
-                                        binding.gameAdView.setVisibility(View.VISIBLE)
-                                        MobileAds.initialize(this@GameActivity)
                                         val request = AdRequest.Builder().build()
-                                        binding.gameAdView.loadAd(request)
-                                        //Quan acaba
-                                        binding.gameAdView.setVisibility(View.GONE)
+                                        val adRequest = AdRequest.Builder().build()
+                                        InterstitialAd.load(this@GameActivity, "ca-app-pub-3940256099942544/1033173712",
+                                            adRequest, object : InterstitialAdLoadCallback() {
+                                                override fun onAdFailedToLoad(p0: LoadAdError) {
+                                                    ad = null
+                                                }
+
+                                                override fun onAdLoaded(loadedAd: InterstitialAd) {
+                                                    ad = loadedAd
+                                                }
+                                            })
+                                        ad?.fullScreenContentCallback = object : FullScreenContentCallback() {
+
+                                            override fun onAdShowedFullScreenContent() {
+                                                ad = null
+                                            }
+                                        }
+                                        ad?.apply {
+                                            show(this@GameActivity)
+                                        }
+
                                         failGuess--
                                     }
                                     binding.notAcceptAdButton.setOnClickListener {

@@ -568,7 +568,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/adMenu"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
         <Button
             android:id="@+id/acceptAdButton"
@@ -635,18 +636,6 @@
             app:layout_constraintTop_toTopOf="@+id/bg"
             app:layout_constraintVertical_bias="0.32999998" />
 
-        <com.google.android.gms.ads.AdView
-            android:id="@+id/gameAdView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="invisible"
-            app:adSize="MEDIUM_RECTANGLE"
-            app:adUnitId="ca-app-pub-3940256099942544/6300978111"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/bg"
-            app:layout_constraintVertical_bias="0.64" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -654,7 +643,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/hangit_pause_1"
-        android:visibility="invisible"
+        android:visibility="gone"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp">
 
