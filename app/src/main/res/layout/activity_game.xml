@@ -554,7 +554,7 @@
         android:id="@+id/scoreText"
         android:layout_width="96dp"
         android:layout_height="46dp"
-        android:layout_marginStart="64dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="96dp"
         android:fontFamily="@font/goodmarker"
         android:text="TextView"
@@ -570,6 +570,7 @@
         android:id="@+id/adMenu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#EFD07E"
         android:visibility="gone">
 
         <Button
@@ -587,7 +588,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.739"
             app:layout_constraintStart_toEndOf="@+id/notAcceptAdButton"
-            app:layout_constraintTop_toTopOf="@+id/adTitle" />
+            app:layout_constraintTop_toTopOf="@+id/adTitle"
+            app:layout_constraintVertical_bias="0.20999998" />
 
         <Button
             android:id="@+id/notAcceptAdButton"
@@ -605,19 +607,23 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/adTitle" />
+            app:layout_constraintTop_toTopOf="@+id/adTitle"
+            app:layout_constraintVertical_bias="0.20999998" />
 
         <ImageView
             android:id="@+id/bg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="350dp"
+            android:layout_height="250dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="200dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginBottom="24dp"
+            android:foreground="@drawable/leterlayout"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.174"
-            app:srcCompat="@drawable/leterlayout" />
+            app:layout_constraintVertical_bias="0.00999999" />
 
         <TextView
             android:id="@+id/adTitle"

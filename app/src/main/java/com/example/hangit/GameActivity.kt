@@ -88,6 +88,21 @@ class GameActivity : AppCompatActivity() {
             manager.createNotificationChannel(channel)
         }
 
+        //Load ad
+        val adRequest = AdRequest.Builder().build()
+        InterstitialAd.load(this@GameActivity,
+            "ca-app-pub-3940256099942544/1033173712",
+            adRequest,
+            object : InterstitialAdLoadCallback() {
+                override fun onAdFailedToLoad(p0: LoadAdError) {
+                    ad = null
+                }
+
+                override fun onAdLoaded(loadedAd: InterstitialAd) {
+                    ad = loadedAd
+                }
+            })
+
         supportActionBar?.hide()
         binding.pauseMenu.isActivated = false
         binding.pauseMenu.setVisibility(View.GONE)
@@ -394,34 +409,59 @@ class GameActivity : AppCompatActivity() {
                                 if (!hasSeenAd) {
                                     hasSeenAd = true
                                     binding.adMenu.setVisibility(View.VISIBLE)
-                                    binding.acceptAdButton.setOnClickListener {
-                                        val request = AdRequest.Builder().build()
-                                        val adRequest = AdRequest.Builder().build()
-                                        InterstitialAd.load(this@GameActivity, "ca-app-pub-3940256099942544/1033173712",
-                                            adRequest, object : InterstitialAdLoadCallback() {
-                                                override fun onAdFailedToLoad(p0: LoadAdError) {
-                                                    ad = null
-                                                }
-
-                                                override fun onAdLoaded(loadedAd: InterstitialAd) {
-                                                    ad = loadedAd
-                                                }
-                                            })
-                                        ad?.fullScreenContentCallback = object : FullScreenContentCallback() {
-
-                                            override fun onAdShowedFullScreenContent() {
-                                                ad = null
-                                            }
+                                    binding.root.forEach { it ->
+                                        if (it is Button) {
+                                            it.isActivated = false
+                                            it.setVisibility(View.GONE)
                                         }
+                                    }
+                                    binding.acceptAdButton.setOnClickListener {
+                                        ad?.fullScreenContentCallback =
+                                            object : FullScreenContentCallback() {
+                                                override fun onAdShowedFullScreenContent() {
+                                                    ad = null
+                                                    failGuess--
+                                                    binding.adMenu.setVisibility(View.GONE)
+                                                    binding.root.forEach { it ->
+                                                        if (it is Button) {
+                                                            it.isActivated = true
+                                                            it.setVisibility(View.VISIBLE)
+                                                        }
+                                                    }
+                                                }
+                                            }
                                         ad?.apply {
                                             show(this@GameActivity)
                                         }
-
-                                        failGuess--
                                     }
                                     binding.notAcceptAdButton.setOnClickListener {
                                         gameOver = true
                                         binding.adMenu.setVisibility(View.GONE)
+                                        binding.root.forEach { it ->
+                                            if (it is Button) {
+                                                it.isActivated = true
+                                                it.setVisibility(View.VISIBLE)
+                                            }
+                                        }
+
+                                        if (gameOver) {
+                                            getSolution(retrofit)
+                                            editor.putInt("score", score)
+                                            editor.apply()
+
+                                            //Wait 2 sec and go to the Lost Screen
+                                            Handler().postDelayed(
+                                                {
+                                                    val intent =
+                                                        Intent(
+                                                            this@GameActivity,
+                                                            YouLoseActivity::class.java
+                                                        )
+                                                    startActivity(intent)
+                                                    finish()
+                                                }, 2000
+                                            )
+                                        }
                                     }
                                 }
                                 if (gameOver) {
@@ -462,7 +502,10 @@ class GameActivity : AppCompatActivity() {
                                 editor.apply()
 
                                 if (shared.getBoolean("notificationOn", notificationOn)) {
-                                    val builder = NotificationCompat.Builder(this@GameActivity, GameActivity.CHANNEL_ID)
+                                    val builder = NotificationCompat.Builder(
+                                        this@GameActivity,
+                                        GameActivity.CHANNEL_ID
+                                    )
                                         .setSmallIcon(R.drawable.gametree)
                                         .setContentTitle("Hang It!")
                                         .setContentText("CONGRATS YOU WIN 🥵 ").build()
