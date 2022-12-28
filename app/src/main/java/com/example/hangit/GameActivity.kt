@@ -78,7 +78,7 @@ class GameActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel =
                 NotificationChannel(
-                    SettingsActivity.CHANNEL_ID,
+                    GameActivity.CHANNEL_ID,
                     "VictoryNotifications",
                     NotificationManager.IMPORTANCE_LOW
                 )
@@ -420,7 +420,7 @@ class GameActivity : AppCompatActivity() {
                                             object : FullScreenContentCallback() {
                                                 override fun onAdShowedFullScreenContent() {
                                                     ad = null
-                                                    failGuess--
+                                                    failGuess --
                                                     binding.adMenu.setVisibility(View.GONE)
                                                     binding.root.forEach { it ->
                                                         if (it is Button) {
