@@ -6,6 +6,9 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.media.AudioManager
+import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -47,8 +50,11 @@ class GameActivity : AppCompatActivity() {
     private var gameOver: Boolean = false
     private var hasSeenAd: Boolean = false
     private var notificationOn: Boolean = false
+    private var soundOn: Boolean = true
     private var ad: InterstitialAd? = null
     private var score: Int = 0
+
+    private lateinit var mp: MediaPlayer
 
     //private lateinit var timer: Timer
     private lateinit var timer: CountDownTimer
@@ -121,6 +127,10 @@ class GameActivity : AppCompatActivity() {
             }
 
             override fun onFinish() {
+                //if (shared.getBoolean("audioOn", soundOn)) {
+
+                //}
+
                 //Wait 2 sec and go to the Lost Screen
                 Handler().postDelayed(
                     {
@@ -320,6 +330,10 @@ class GameActivity : AppCompatActivity() {
                     }
 
                     override fun onFinish() {
+                        //if (shared.getBoolean("audioOn", soundOn)) {
+
+                        //}
+
                         //Wait 2 sec and go to the Lost Screen
                         Handler().postDelayed(
                             {
@@ -402,6 +416,11 @@ class GameActivity : AppCompatActivity() {
                             binding.treeRope.y += 5.5f
                             binding.treeWheel.y += 10.5f
 
+                            if (shared.getBoolean("audioOn", soundOn)) {
+                                mp = MediaPlayer.create(this@GameActivity, R.raw.lletra_mal);
+                                mp.start();
+                            }
+
                             //Updated the number of errors and check if user lost
                             failGuess++
                             if (failGuess >= MAX_ERRORS) {
@@ -427,6 +446,10 @@ class GameActivity : AppCompatActivity() {
                                                         }
 
                                                         override fun onFinish() {
+                                                            //if (shared.getBoolean("audioOn", soundOn)) {
+
+                                                            //}
+
                                                             //Wait 2 sec and go to the Lost Screen
                                                             Handler().postDelayed(
                                                                 {
@@ -473,6 +496,10 @@ class GameActivity : AppCompatActivity() {
                                             editor.putInt("score", score)
                                             editor.apply()
 
+                                            //if (shared.getBoolean("audioOn", soundOn)) {
+
+                                            //}
+
                                             //Wait 2 sec and go to the Lost Screen
                                             Handler().postDelayed(
                                                 {
@@ -499,6 +526,10 @@ class GameActivity : AppCompatActivity() {
                                     editor.putInt("score", score)
                                     editor.apply()
 
+                                    //if (shared.getBoolean("audioOn", soundOn)) {
+
+                                    //}
+
                                     //Wait 2 sec and go to the Lost Screen
                                     Handler().postDelayed(
                                         {
@@ -521,6 +552,10 @@ class GameActivity : AppCompatActivity() {
                             binding.scoreText.text = score.toString()
 
                             //Add sound
+                            if (shared.getBoolean("audioOn", soundOn)) {
+                                mp = MediaPlayer.create(this@GameActivity, R.raw.lletra_correcta)
+                                mp.start()
+                            }
 
                             //Add letter to the solution
                             binding.word.text = letterInfo.hangman
@@ -547,6 +582,11 @@ class GameActivity : AppCompatActivity() {
 
                                 timer.cancel()
                                 gameOver = true
+
+                                if (shared.getBoolean("audioOn", soundOn)) {
+
+                                }
+
                                 //Wait 2 sec and go to the Win Screen
                                 Handler().postDelayed(
                                     {
