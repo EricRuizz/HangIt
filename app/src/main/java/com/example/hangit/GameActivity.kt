@@ -280,7 +280,7 @@ class GameActivity : AppCompatActivity() {
             binding.pauseMenu.isActivated = true
             binding.pauseMenu.setVisibility(View.VISIBLE)
 
-            timer.cancel() // no va?
+            timer.cancel()
         }
 
         //Restart game
@@ -407,6 +407,7 @@ class GameActivity : AppCompatActivity() {
                             if (failGuess >= MAX_ERRORS) {
 
                                 if (!hasSeenAd) {
+                                    timer.cancel()
                                     hasSeenAd = true
                                     binding.adMenu.setVisibility(View.VISIBLE)
                                     binding.root.forEach { it ->
@@ -419,8 +420,31 @@ class GameActivity : AppCompatActivity() {
                                         ad?.fullScreenContentCallback =
                                             object : FullScreenContentCallback() {
                                                 override fun onAdShowedFullScreenContent() {
+                                                    timer = object : CountDownTimer(millisLeft, 1000) {
+                                                        override fun onTick(millisUntilFinished: Long) {
+                                                            binding.timeText.text = (millisUntilFinished / 1000).toString()
+                                                            millisLeft = millisUntilFinished
+                                                        }
+
+                                                        override fun onFinish() {
+                                                            //Wait 2 sec and go to the Lost Screen
+                                                            Handler().postDelayed(
+                                                                {
+                                                                    val intent =
+                                                                        Intent(this@GameActivity, YouLoseActivity::class.java)
+                                                                    startActivity(intent)
+                                                                    finish()
+                                                                }, 2000
+                                                            )
+                                                        }
+                                                    }
+                                                    timer.start()
+
                                                     ad = null
-                                                    failGuess --
+                                                    //failGuess--
+                                                    binding.treeRope.scaleY -= 0.2f
+                                                    binding.treeRope.y -= 5.5f
+                                                    binding.treeWheel.y -= 10.5f
                                                     binding.adMenu.setVisibility(View.GONE)
                                                     binding.root.forEach { it ->
                                                         if (it is Button) {
@@ -464,7 +488,13 @@ class GameActivity : AppCompatActivity() {
                                         }
                                     }
                                 }
+                                else
+                                {
+                                    timer.cancel()
+                                    gameOver = true
+                                }
                                 if (gameOver) {
+                                    timer.cancel()
                                     getSolution(retrofit)
                                     editor.putInt("score", score)
                                     editor.apply()
@@ -515,6 +545,7 @@ class GameActivity : AppCompatActivity() {
                                     }
                                 }
 
+                                timer.cancel()
                                 gameOver = true
                                 //Wait 2 sec and go to the Win Screen
                                 Handler().postDelayed(
