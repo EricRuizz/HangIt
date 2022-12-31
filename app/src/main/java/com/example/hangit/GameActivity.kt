@@ -53,7 +53,6 @@ class GameActivity : AppCompatActivity() {
     private var notificationOn: Boolean = false
     private var soundOn: Boolean = true
     private var ad: InterstitialAd? = null
-    private var score: Int = 0
 
     private lateinit var mp: MediaPlayer
     private lateinit var sp: MediaPlayer
@@ -69,6 +68,7 @@ class GameActivity : AppCompatActivity() {
 
     companion object {
         const val CHANNEL_ID = "NOTIFICATIONS_CHANNEL_GAME"
+        var score: Int = 0
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

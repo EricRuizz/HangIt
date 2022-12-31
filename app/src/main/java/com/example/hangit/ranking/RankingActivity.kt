@@ -23,11 +23,15 @@ class RankingActivity : AppCompatActivity() {
         add(User("Eric", 3))
     }
 
-    //Order users by score ascending
-    private var orderedUsers = users.sortedBy { it.score }.reversed()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        rankingViewModel.addScore()
+        rankingViewModel.openRanking()
+
+        //Order users by score ascending
+        var orderedUsers = rankingViewModel.ranking.sortedBy { it.score }.reversed()
 
         binding = ActivityRankingBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -43,6 +47,7 @@ class RankingActivity : AppCompatActivity() {
 
             finish()
         }
+
 
     }
 
