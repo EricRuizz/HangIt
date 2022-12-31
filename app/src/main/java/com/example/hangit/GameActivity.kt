@@ -127,9 +127,10 @@ class GameActivity : AppCompatActivity() {
             }
 
             override fun onFinish() {
-                //if (shared.getBoolean("audioOn", soundOn)) {
-
-                //}
+                if (shared.getBoolean("audioOn", soundOn)) {
+                    mp = MediaPlayer.create(this@GameActivity, R.raw.you_lose)
+                    mp.start()
+                }
 
                 //Wait 2 sec and go to the Lost Screen
                 Handler().postDelayed(
@@ -330,9 +331,10 @@ class GameActivity : AppCompatActivity() {
                     }
 
                     override fun onFinish() {
-                        //if (shared.getBoolean("audioOn", soundOn)) {
-
-                        //}
+                        if (shared.getBoolean("audioOn", soundOn)) {
+                            mp = MediaPlayer.create(this@GameActivity, R.raw.you_lose)
+                            mp.start()
+                        }
 
                         //Wait 2 sec and go to the Lost Screen
                         Handler().postDelayed(
@@ -446,9 +448,10 @@ class GameActivity : AppCompatActivity() {
                                                         }
 
                                                         override fun onFinish() {
-                                                            //if (shared.getBoolean("audioOn", soundOn)) {
-
-                                                            //}
+                                                            if (shared.getBoolean("audioOn", soundOn)) {
+                                                                mp = MediaPlayer.create(this@GameActivity, R.raw.you_lose)
+                                                                mp.start()
+                                                            }
 
                                                             //Wait 2 sec and go to the Lost Screen
                                                             Handler().postDelayed(
@@ -496,9 +499,10 @@ class GameActivity : AppCompatActivity() {
                                             editor.putInt("score", score)
                                             editor.apply()
 
-                                            //if (shared.getBoolean("audioOn", soundOn)) {
-
-                                            //}
+                                            if (shared.getBoolean("audioOn", soundOn)) {
+                                                mp = MediaPlayer.create(this@GameActivity, R.raw.you_lose)
+                                                mp.start()
+                                            }
 
                                             //Wait 2 sec and go to the Lost Screen
                                             Handler().postDelayed(
@@ -526,9 +530,10 @@ class GameActivity : AppCompatActivity() {
                                     editor.putInt("score", score)
                                     editor.apply()
 
-                                    //if (shared.getBoolean("audioOn", soundOn)) {
-
-                                    //}
+                                    if (shared.getBoolean("audioOn", soundOn)) {
+                                        mp = MediaPlayer.create(this@GameActivity, R.raw.you_lose)
+                                        mp.start()
+                                    }
 
                                     //Wait 2 sec and go to the Lost Screen
                                     Handler().postDelayed(
@@ -584,7 +589,8 @@ class GameActivity : AppCompatActivity() {
                                 gameOver = true
 
                                 if (shared.getBoolean("audioOn", soundOn)) {
-
+                                    mp = MediaPlayer.create(this@GameActivity, R.raw.you_win)
+                                    mp.start()
                                 }
 
                                 //Wait 2 sec and go to the Win Screen
