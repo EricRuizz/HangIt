@@ -128,6 +128,7 @@ class GameActivity : AppCompatActivity() {
 
             override fun onFinish() {
                 if (shared.getBoolean("audioOn", soundOn)) {
+                    mp.stop()
                     mp = MediaPlayer.create(this@GameActivity, R.raw.you_lose)
                     mp.start()
                 }
@@ -332,6 +333,7 @@ class GameActivity : AppCompatActivity() {
 
                     override fun onFinish() {
                         if (shared.getBoolean("audioOn", soundOn)) {
+                            mp.stop()
                             mp = MediaPlayer.create(this@GameActivity, R.raw.you_lose)
                             mp.start()
                         }
@@ -419,6 +421,7 @@ class GameActivity : AppCompatActivity() {
                             binding.treeWheel.y += 10.5f
 
                             if (shared.getBoolean("audioOn", soundOn)) {
+                                mp.stop()
                                 mp = MediaPlayer.create(this@GameActivity, R.raw.lletra_mal);
                                 mp.start();
                             }
@@ -449,6 +452,7 @@ class GameActivity : AppCompatActivity() {
 
                                                         override fun onFinish() {
                                                             if (shared.getBoolean("audioOn", soundOn)) {
+                                                                mp.stop()
                                                                 mp = MediaPlayer.create(this@GameActivity, R.raw.you_lose)
                                                                 mp.start()
                                                             }
@@ -500,6 +504,7 @@ class GameActivity : AppCompatActivity() {
                                             editor.apply()
 
                                             if (shared.getBoolean("audioOn", soundOn)) {
+                                                mp.stop()
                                                 mp = MediaPlayer.create(this@GameActivity, R.raw.you_lose)
                                                 mp.start()
                                             }
@@ -531,6 +536,7 @@ class GameActivity : AppCompatActivity() {
                                     editor.apply()
 
                                     if (shared.getBoolean("audioOn", soundOn)) {
+                                        mp.stop()
                                         mp = MediaPlayer.create(this@GameActivity, R.raw.you_lose)
                                         mp.start()
                                     }
@@ -558,6 +564,7 @@ class GameActivity : AppCompatActivity() {
 
                             //Add sound
                             if (shared.getBoolean("audioOn", soundOn)) {
+                                mp.stop()
                                 mp = MediaPlayer.create(this@GameActivity, R.raw.lletra_correcta)
                                 mp.start()
                             }
@@ -567,7 +574,11 @@ class GameActivity : AppCompatActivity() {
 
                             //Check  if user has won
                             if (letterInfo.hangman == solutionInfo.solution) {
-
+                                if (shared.getBoolean("audioOn", soundOn)) {
+                                    mp.stop()
+                                    mp = MediaPlayer.create(this@GameActivity, R.raw.you_win)
+                                    mp.start()
+                                }
                                 editor.putInt("score", score)
                                 editor.apply()
 
@@ -588,14 +599,12 @@ class GameActivity : AppCompatActivity() {
                                 timer.cancel()
                                 gameOver = true
 
-                                if (shared.getBoolean("audioOn", soundOn)) {
-                                    mp = MediaPlayer.create(this@GameActivity, R.raw.you_win)
-                                    mp.start()
-                                }
+
 
                                 //Wait 2 sec and go to the Win Screen
                                 Handler().postDelayed(
                                     {
+
                                         val intent =
                                             Intent(this@GameActivity, YouWinActivity::class.java)
                                         startActivity(intent)
