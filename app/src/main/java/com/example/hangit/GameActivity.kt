@@ -8,6 +8,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.media.AudioManager
 import android.media.MediaPlayer
+import android.media.SoundPool
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -55,6 +56,7 @@ class GameActivity : AppCompatActivity() {
     private var score: Int = 0
 
     private lateinit var mp: MediaPlayer
+    private lateinit var sp: MediaPlayer
 
     //private lateinit var timer: Timer
     private lateinit var timer: CountDownTimer
@@ -63,11 +65,14 @@ class GameActivity : AppCompatActivity() {
     lateinit var shared: SharedPreferences
     lateinit var editor: SharedPreferences.Editor
 
+    private var pausedGame: Boolean = false
+
     companion object {
         const val CHANNEL_ID = "NOTIFICATIONS_CHANNEL_GAME"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
 
         score = 0
 
@@ -79,6 +84,16 @@ class GameActivity : AppCompatActivity() {
 
         shared = PreferenceManager.getDefaultSharedPreferences(this)
         editor = shared.edit()
+
+        if (shared.getBoolean("audioOn", soundOn)) {
+            mp = MediaPlayer.create(this@GameActivity, R.raw.lletra_correcta)
+            //mp.start()
+            //mp.stop()
+
+            sp = MediaPlayer.create(this@GameActivity, R.raw.song)
+            sp.start()
+            sp.isLooping = true
+        }
 
         //Create channel notifications
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -128,7 +143,9 @@ class GameActivity : AppCompatActivity() {
 
             override fun onFinish() {
                 if (shared.getBoolean("audioOn", soundOn)) {
-                    mp.stop()
+                    if(mp.isPlaying)
+                        mp.stop()
+                    sp.stop()
                     mp = MediaPlayer.create(this@GameActivity, R.raw.you_lose)
                     mp.start()
                 }
@@ -333,8 +350,10 @@ class GameActivity : AppCompatActivity() {
 
                     override fun onFinish() {
                         if (shared.getBoolean("audioOn", soundOn)) {
-                            mp.stop()
+                            if(mp.isPlaying)
+                                mp.stop()
                             mp = MediaPlayer.create(this@GameActivity, R.raw.you_lose)
+                            sp.stop()
                             mp.start()
                         }
 
@@ -421,7 +440,9 @@ class GameActivity : AppCompatActivity() {
                             binding.treeWheel.y += 10.5f
 
                             if (shared.getBoolean("audioOn", soundOn)) {
-                                mp.stop()
+                                if(mp.isPlaying)
+                                    mp.stop()
+
                                 mp = MediaPlayer.create(this@GameActivity, R.raw.lletra_mal);
                                 mp.start();
                             }
@@ -452,8 +473,10 @@ class GameActivity : AppCompatActivity() {
 
                                                         override fun onFinish() {
                                                             if (shared.getBoolean("audioOn", soundOn)) {
-                                                                mp.stop()
+                                                                if(mp.isPlaying)
+                                                                    mp.stop()
                                                                 mp = MediaPlayer.create(this@GameActivity, R.raw.you_lose)
+                                                                sp.stop()
                                                                 mp.start()
                                                             }
 
@@ -504,8 +527,10 @@ class GameActivity : AppCompatActivity() {
                                             editor.apply()
 
                                             if (shared.getBoolean("audioOn", soundOn)) {
-                                                mp.stop()
+                                                if(mp.isPlaying)
+                                                    mp.stop()
                                                 mp = MediaPlayer.create(this@GameActivity, R.raw.you_lose)
+                                                sp.stop()
                                                 mp.start()
                                             }
 
@@ -536,8 +561,10 @@ class GameActivity : AppCompatActivity() {
                                     editor.apply()
 
                                     if (shared.getBoolean("audioOn", soundOn)) {
-                                        mp.stop()
+                                        if(mp.isPlaying)
+                                            mp.stop()
                                         mp = MediaPlayer.create(this@GameActivity, R.raw.you_lose)
+                                        sp.stop()
                                         mp.start()
                                     }
 
@@ -564,7 +591,8 @@ class GameActivity : AppCompatActivity() {
 
                             //Add sound
                             if (shared.getBoolean("audioOn", soundOn)) {
-                                mp.stop()
+                                if(mp.isPlaying)
+                                    mp.stop()
                                 mp = MediaPlayer.create(this@GameActivity, R.raw.lletra_correcta)
                                 mp.start()
                             }
@@ -575,8 +603,10 @@ class GameActivity : AppCompatActivity() {
                             //Check  if user has won
                             if (letterInfo.hangman == solutionInfo.solution) {
                                 if (shared.getBoolean("audioOn", soundOn)) {
-                                    mp.stop()
+                                    if(mp.isPlaying)
+                                        mp.stop()
                                     mp = MediaPlayer.create(this@GameActivity, R.raw.you_win)
+                                    sp.stop()
                                     mp.start()
                                 }
                                 editor.putInt("score", score)
@@ -701,5 +731,47 @@ class GameActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    override fun onPause() {
+        super.onPause()
+        timer.cancel()
+        sp.pause()
+
+        pausedGame = true
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(pausedGame) {
+            pausedGame = false
+            timer = object : CountDownTimer(millisLeft, 1000) {
+                override fun onTick(millisUntilFinished: Long) {
+                    binding.timeText.text = (millisUntilFinished / 1000).toString()
+                    millisLeft = millisUntilFinished
+                }
+
+                override fun onFinish() {
+                    if (shared.getBoolean("audioOn", soundOn)) {
+                    if(mp.isPlaying)
+                        mp.stop()
+                    mp = MediaPlayer.create(this@GameActivity, R.raw.you_lose)
+                    sp.stop()
+                    mp.start()
+                }
+
+                    Handler().postDelayed(
+                        {
+                            val intent =
+                                Intent(this@GameActivity, YouLoseActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }, 2000
+                    )
+                }
+            }
+            timer.start()
+            sp.start()
+        }
     }
 }
