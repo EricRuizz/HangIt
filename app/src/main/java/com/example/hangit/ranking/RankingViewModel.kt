@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.preference.PreferenceManager
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.recyclerview.widget.RecyclerView
 import com.example.hangit.GameActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -16,6 +17,10 @@ import com.google.firebase.ktx.Firebase
 class RankingViewModel : ViewModel() {
 
     public val ranking =  arrayListOf<User>()
+
+    private lateinit var rankingActivity: RankingActivity
+    private lateinit var adapter: RankingAdapter
+
     val db = Firebase.database("https://hangit-660df-default-rtdb.europe-west1.firebasedatabase.app/")
         .getReference("Users") //collection name
 
@@ -25,7 +30,23 @@ class RankingViewModel : ViewModel() {
             it.children.forEach{ userID->
                 ranking.add(User(userID.child("username").value as String, userID.child("score").value as Long))
             }
+
+            //Order users by score ascending
+            var orderedUsers = ranking.sortedBy { it.score }.reversed()
+
+            //Update the ranking/recyclerView
+            adapter.updateUsersList(orderedUsers)
+
         }
+    }
+
+    fun init(activity: RankingActivity) {
+        rankingActivity = activity
+        adapter = RankingAdapter(rankingActivity)
+    }
+
+    fun setAdapter(view: RecyclerView){
+        view.adapter = adapter
     }
 
     private val currentUserID: String

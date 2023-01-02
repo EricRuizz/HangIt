@@ -10,7 +10,6 @@ import com.example.hangit.databinding.ActivityRankingBinding
 
 class RankingActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRankingBinding
-    private val adapter = RankingAdapter(this)
 
     private val rankingViewModel: RankingViewModel by viewModels()
 
@@ -27,18 +26,17 @@ class RankingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        rankingViewModel.addScore()
-        rankingViewModel.openRanking()
-
-        //Order users by score ascending
-        var orderedUsers = rankingViewModel.ranking.sortedBy { it.score }.reversed()
-
         binding = ActivityRankingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //rankingViewModel.rankingActivity = this
+        rankingViewModel.init(this@RankingActivity)
+
         //Update the ranking/recyclerView
-        adapter.updateUsersList(orderedUsers)
-        binding.list.adapter = adapter
+        rankingViewModel.setAdapter(binding.list)
+
+        rankingViewModel.addScore()
+        rankingViewModel.openRanking()
 
         //Go to back the main screen
         binding.goBackButtonRanking.setOnClickListener {

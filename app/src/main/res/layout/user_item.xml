@@ -46,7 +46,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/goodmarker"
         android:text="TextView"
-        android:textSize="28sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/nameRankingBG"
         app:layout_constraintEnd_toEndOf="@+id/nameRankingBG"
         app:layout_constraintHorizontal_bias="0.505"
