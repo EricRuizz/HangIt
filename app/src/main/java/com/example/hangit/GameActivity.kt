@@ -68,7 +68,7 @@ class GameActivity : AppCompatActivity() {
 
     companion object {
         const val CHANNEL_ID = "NOTIFICATIONS_CHANNEL_GAME"
-        var score: Int = 0
+        var score: Long = 0
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -523,8 +523,6 @@ class GameActivity : AppCompatActivity() {
 
                                         if (gameOver) {
                                             getSolution(retrofit)
-                                            editor.putInt("score", score)
-                                            editor.apply()
 
                                             if (shared.getBoolean("audioOn", soundOn)) {
                                                 if(mp.isPlaying)
@@ -557,8 +555,7 @@ class GameActivity : AppCompatActivity() {
                                 if (gameOver) {
                                     timer.cancel()
                                     getSolution(retrofit)
-                                    editor.putInt("score", score)
-                                    editor.apply()
+
 
                                     if (shared.getBoolean("audioOn", soundOn)) {
                                         if(mp.isPlaying)
@@ -609,8 +606,6 @@ class GameActivity : AppCompatActivity() {
                                     sp.stop()
                                     mp.start()
                                 }
-                                editor.putInt("score", score)
-                                editor.apply()
 
                                 if (shared.getBoolean("notificationOn", notificationOn)) {
                                     val builder = NotificationCompat.Builder(

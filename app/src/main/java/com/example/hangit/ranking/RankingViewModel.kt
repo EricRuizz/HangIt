@@ -23,7 +23,7 @@ class RankingViewModel : ViewModel() {
     {
         db.get().addOnSuccessListener {
             it.children.forEach{ userID->
-                ranking.add(User(userID.child("username").value as String, userID.child("score").value as Int))
+                ranking.add(User(userID.child("username").value as String, userID.child("score").value as Long))
             }
         }
     }
@@ -37,7 +37,7 @@ class RankingViewModel : ViewModel() {
             ?: throw IllegalStateException("Not logged in")
 
     fun addScore() {
-        if(GameActivity.score == 0) return
+        if(GameActivity.score == 0L) return
         db.child(currentUserID).child("username").setValue(currentUser)
         db.child(currentUserID).child("score").setValue(GameActivity.score)
     }
