@@ -16,19 +16,27 @@ import com.google.firebase.ktx.Firebase
 
 class RankingViewModel : ViewModel() {
 
-    public val ranking =  arrayListOf<User>()
+    public val ranking = arrayListOf<User>()
+    private var bestScore: Long = 0L
+
+    private var foundUser: Boolean = false
 
     private lateinit var rankingActivity: RankingActivity
     private lateinit var adapter: RankingAdapter
 
-    val db = Firebase.database("https://hangit-660df-default-rtdb.europe-west1.firebasedatabase.app/")
-        .getReference("Users") //collection name
+    val db =
+        Firebase.database("https://hangit-660df-default-rtdb.europe-west1.firebasedatabase.app/")
+            .getReference("Users") //collection name
 
-    fun openRanking()
-    {
+    fun openRanking() {
         db.get().addOnSuccessListener {
-            it.children.forEach{ userID->
-                ranking.add(User(userID.child("username").value as String, userID.child("score").value as Long))
+            it.children.forEach { userID ->
+                ranking.add(
+                    User(
+                        userID.child("username").value as String,
+                        userID.child("score").value as Long
+                    )
+                )
             }
 
             //Order users by score ascending
@@ -45,7 +53,7 @@ class RankingViewModel : ViewModel() {
         adapter = RankingAdapter(rankingActivity)
     }
 
-    fun setAdapter(view: RecyclerView){
+    fun setAdapter(view: RecyclerView) {
         view.adapter = adapter
     }
 
@@ -58,9 +66,29 @@ class RankingViewModel : ViewModel() {
             ?: throw IllegalStateException("Not logged in")
 
     fun addScore() {
-        if(GameActivity.score == 0L) return
-        db.child(currentUserID).child("username").setValue(currentUser)
-        db.child(currentUserID).child("score").setValue(GameActivity.score)
+        if (GameActivity.score == 0L || FirebaseAuth.getInstance().currentUser?.email == null) return
+
+        foundUser = false
+        db.get().addOnSuccessListener {
+            it.children.forEach { userID ->
+
+                if((userID.child("username").value as String) == currentUser)
+                {
+                    if((userID.child("score").value as Long) < GameActivity.score)
+                    {
+                        db.child(currentUserID).child("username").setValue(currentUser)
+                        db.child(currentUserID).child("score").setValue(GameActivity.score)
+                    }
+                    foundUser = true
+                }
+            }
+
+            if(!foundUser)
+            {
+                db.child(currentUserID).child("username").setValue(currentUser)
+                db.child(currentUserID).child("score").setValue(GameActivity.score)
+            }
+        }
     }
 
 }

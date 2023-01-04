@@ -47,7 +47,7 @@ class GameActivity : AppCompatActivity() {
     private lateinit var solutionInfo: ResponseSolution
 
     private var failGuess: Int = 0
-    private val MAX_ERRORS: Int = 10
+    private val MAX_ERRORS: Int = 1000
     private var gameOver: Boolean = false
     private var hasSeenAd: Boolean = false
     private var notificationOn: Boolean = false
