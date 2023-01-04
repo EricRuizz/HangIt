@@ -21,13 +21,17 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.os.bundleOf
 import androidx.core.view.forEach
 import com.example.hangit.databinding.ActivityGameBinding
 import com.example.hangit.hangman.*
 import com.google.android.gms.ads.*
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -45,14 +49,16 @@ class GameActivity : AppCompatActivity() {
     private lateinit var firestore: FirebaseFirestore
     private lateinit var hintInfo: ResponseHint
     private lateinit var solutionInfo: ResponseSolution
+    private val firebaseAnalytics: FirebaseAnalytics = Firebase.analytics
 
     private var failGuess: Int = 0
-    private val MAX_ERRORS: Int = 1000
+    private val MAX_ERRORS: Int = 10
     private var gameOver: Boolean = false
     private var hasSeenAd: Boolean = false
     private var notificationOn: Boolean = false
     private var soundOn: Boolean = true
     private var ad: InterstitialAd? = null
+    private var correctWords: Int = 0
 
     private lateinit var mp: MediaPlayer
     private lateinit var sp: MediaPlayer
@@ -73,6 +79,12 @@ class GameActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
+        firebaseAnalytics.logEvent(
+            FirebaseAnalytics.Event.LEVEL_START,
+            bundleOf(
+                FirebaseAnalytics.Param.LEVEL to correctWords
+            )
+        )
 
         score = 0
 
@@ -84,6 +96,7 @@ class GameActivity : AppCompatActivity() {
 
         shared = PreferenceManager.getDefaultSharedPreferences(this)
         editor = shared.edit()
+
 
         if (shared.getBoolean("audioOn", soundOn)) {
             mp = MediaPlayer.create(this@GameActivity, R.raw.lletra_correcta)
@@ -462,6 +475,14 @@ class GameActivity : AppCompatActivity() {
                                         }
                                     }
                                     binding.acceptAdButton.setOnClickListener {
+
+                                        firebaseAnalytics.logEvent(
+                                            FirebaseAnalytics.Event.NEW_CHANCE,
+                                            bundleOf(
+                                                FirebaseAnalytics.Param.VIEW_AD to true
+                                            )
+                                        )
+
                                         ad?.fullScreenContentCallback =
                                             object : FullScreenContentCallback() {
                                                 override fun onAdShowedFullScreenContent() {
@@ -505,6 +526,13 @@ class GameActivity : AppCompatActivity() {
                                                             it.setVisibility(View.VISIBLE)
                                                         }
                                                     }
+
+                                                    firebaseAnalytics.logEvent(
+                                                        FirebaseAnalytics.Event.SHOW_AD,
+                                                        bundleOf(
+                                                            FirebaseAnalytics.Param.LEVEL to correctWords
+                                                        )
+                                                    )
                                                 }
                                             }
                                         ad?.apply {
@@ -599,6 +627,7 @@ class GameActivity : AppCompatActivity() {
 
                             //Check  if user has won
                             if (letterInfo.hangman == solutionInfo.solution) {
+                                correctWords++
                                 if (shared.getBoolean("audioOn", soundOn)) {
                                     if(mp.isPlaying)
                                         mp.stop()
