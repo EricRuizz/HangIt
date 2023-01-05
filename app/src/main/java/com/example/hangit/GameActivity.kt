@@ -156,7 +156,7 @@ class GameActivity : AppCompatActivity() {
 
             override fun onFinish() {
                 if (shared.getBoolean("audioOn", soundOn)) {
-                    if(mp.isPlaying)
+                    if (mp.isPlaying)
                         mp.stop()
                     sp.stop()
                     mp = MediaPlayer.create(this@GameActivity, R.raw.you_lose)
@@ -363,7 +363,7 @@ class GameActivity : AppCompatActivity() {
 
                     override fun onFinish() {
                         if (shared.getBoolean("audioOn", soundOn)) {
-                            if(mp.isPlaying)
+                            if (mp.isPlaying)
                                 mp.stop()
                             mp = MediaPlayer.create(this@GameActivity, R.raw.you_lose)
                             sp.stop()
@@ -453,7 +453,7 @@ class GameActivity : AppCompatActivity() {
                             binding.treeWheel.y += 10.5f
 
                             if (shared.getBoolean("audioOn", soundOn)) {
-                                if(mp.isPlaying)
+                                if (mp.isPlaying)
                                     mp.stop()
 
                                 mp = MediaPlayer.create(this@GameActivity, R.raw.lletra_mal);
@@ -477,41 +477,53 @@ class GameActivity : AppCompatActivity() {
                                     binding.acceptAdButton.setOnClickListener {
 
                                         firebaseAnalytics.logEvent(
-                                            FirebaseAnalytics.Event.NEW_CHANCE,
+                                            "NEW_CHANCE",
                                             bundleOf(
-                                                FirebaseAnalytics.Param.VIEW_AD to true
+                                                "PARAM_VIEW_AD" to true
                                             )
                                         )
 
                                         ad?.fullScreenContentCallback =
                                             object : FullScreenContentCallback() {
                                                 override fun onAdShowedFullScreenContent() {
-                                                    timer = object : CountDownTimer(millisLeft, 1000) {
-                                                        override fun onTick(millisUntilFinished: Long) {
-                                                            binding.timeText.text = (millisUntilFinished / 1000).toString()
-                                                            millisLeft = millisUntilFinished
-                                                        }
-
-                                                        override fun onFinish() {
-                                                            if (shared.getBoolean("audioOn", soundOn)) {
-                                                                if(mp.isPlaying)
-                                                                    mp.stop()
-                                                                mp = MediaPlayer.create(this@GameActivity, R.raw.you_lose)
-                                                                sp.stop()
-                                                                mp.start()
+                                                    timer =
+                                                        object : CountDownTimer(millisLeft, 1000) {
+                                                            override fun onTick(millisUntilFinished: Long) {
+                                                                binding.timeText.text =
+                                                                    (millisUntilFinished / 1000).toString()
+                                                                millisLeft = millisUntilFinished
                                                             }
 
-                                                            //Wait 2 sec and go to the Lost Screen
-                                                            Handler().postDelayed(
-                                                                {
-                                                                    val intent =
-                                                                        Intent(this@GameActivity, YouLoseActivity::class.java)
-                                                                    startActivity(intent)
-                                                                    finish()
-                                                                }, 2000
-                                                            )
+                                                            override fun onFinish() {
+                                                                if (shared.getBoolean(
+                                                                        "audioOn",
+                                                                        soundOn
+                                                                    )
+                                                                ) {
+                                                                    if (mp.isPlaying)
+                                                                        mp.stop()
+                                                                    mp = MediaPlayer.create(
+                                                                        this@GameActivity,
+                                                                        R.raw.you_lose
+                                                                    )
+                                                                    sp.stop()
+                                                                    mp.start()
+                                                                }
+
+                                                                //Wait 2 sec and go to the Lost Screen
+                                                                Handler().postDelayed(
+                                                                    {
+                                                                        val intent =
+                                                                            Intent(
+                                                                                this@GameActivity,
+                                                                                YouLoseActivity::class.java
+                                                                            )
+                                                                        startActivity(intent)
+                                                                        finish()
+                                                                    }, 2000
+                                                                )
+                                                            }
                                                         }
-                                                    }
                                                     timer.start()
 
                                                     ad = null
@@ -528,9 +540,10 @@ class GameActivity : AppCompatActivity() {
                                                     }
 
                                                     firebaseAnalytics.logEvent(
-                                                        FirebaseAnalytics.Event.SHOW_AD,
+                                                        FirebaseAnalytics.Event.AD_IMPRESSION,
                                                         bundleOf(
-                                                            FirebaseAnalytics.Param.LEVEL to correctWords
+                                                            FirebaseAnalytics.Param.AD_UNIT_NAME to ad?.adUnitId,
+                                                            "IS_LOADED_AD_PARAM" to (ad != null)
                                                         )
                                                     )
                                                 }
@@ -541,6 +554,14 @@ class GameActivity : AppCompatActivity() {
                                     }
                                     binding.notAcceptAdButton.setOnClickListener {
                                         gameOver = true
+
+                                        firebaseAnalytics.logEvent(
+                                            "NEW_CHANCE",
+                                            bundleOf(
+                                                "PARAM_VIEW_AD" to false
+                                            )
+                                        )
+
                                         binding.adMenu.setVisibility(View.GONE)
                                         binding.root.forEach { it ->
                                             if (it is Button) {
@@ -553,9 +574,12 @@ class GameActivity : AppCompatActivity() {
                                             getSolution(retrofit)
 
                                             if (shared.getBoolean("audioOn", soundOn)) {
-                                                if(mp.isPlaying)
+                                                if (mp.isPlaying)
                                                     mp.stop()
-                                                mp = MediaPlayer.create(this@GameActivity, R.raw.you_lose)
+                                                mp = MediaPlayer.create(
+                                                    this@GameActivity,
+                                                    R.raw.you_lose
+                                                )
                                                 sp.stop()
                                                 mp.start()
                                             }
@@ -574,9 +598,7 @@ class GameActivity : AppCompatActivity() {
                                             )
                                         }
                                     }
-                                }
-                                else
-                                {
+                                } else {
                                     timer.cancel()
                                     gameOver = true
                                 }
@@ -586,7 +608,7 @@ class GameActivity : AppCompatActivity() {
 
 
                                     if (shared.getBoolean("audioOn", soundOn)) {
-                                        if(mp.isPlaying)
+                                        if (mp.isPlaying)
                                             mp.stop()
                                         mp = MediaPlayer.create(this@GameActivity, R.raw.you_lose)
                                         sp.stop()
@@ -616,7 +638,7 @@ class GameActivity : AppCompatActivity() {
 
                             //Add sound
                             if (shared.getBoolean("audioOn", soundOn)) {
-                                if(mp.isPlaying)
+                                if (mp.isPlaying)
                                     mp.stop()
                                 mp = MediaPlayer.create(this@GameActivity, R.raw.lletra_correcta)
                                 mp.start()
@@ -629,7 +651,7 @@ class GameActivity : AppCompatActivity() {
                             if (letterInfo.hangman == solutionInfo.solution) {
                                 correctWords++
                                 if (shared.getBoolean("audioOn", soundOn)) {
-                                    if(mp.isPlaying)
+                                    if (mp.isPlaying)
                                         mp.stop()
                                     mp = MediaPlayer.create(this@GameActivity, R.raw.you_win)
                                     sp.stop()
@@ -652,7 +674,6 @@ class GameActivity : AppCompatActivity() {
 
                                 timer.cancel()
                                 gameOver = true
-
 
 
                                 //Wait 2 sec and go to the Win Screen
@@ -767,7 +788,7 @@ class GameActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if(pausedGame) {
+        if (pausedGame) {
             pausedGame = false
             timer = object : CountDownTimer(millisLeft, 1000) {
                 override fun onTick(millisUntilFinished: Long) {
@@ -777,12 +798,12 @@ class GameActivity : AppCompatActivity() {
 
                 override fun onFinish() {
                     if (shared.getBoolean("audioOn", soundOn)) {
-                    if(mp.isPlaying)
-                        mp.stop()
-                    mp = MediaPlayer.create(this@GameActivity, R.raw.you_lose)
-                    sp.stop()
-                    mp.start()
-                }
+                        if (mp.isPlaying)
+                            mp.stop()
+                        mp = MediaPlayer.create(this@GameActivity, R.raw.you_lose)
+                        sp.stop()
+                        mp.start()
+                    }
 
                     Handler().postDelayed(
                         {
