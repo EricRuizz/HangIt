@@ -41,6 +41,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
 import kotlin.concurrent.timerTask
 
+const val NEW_CHANCE = "new_chance"
+const val VIEW_AD = "view_ad"
+const val IS_LOADED_AD_PARAM = "is_loaded_ad_param"
+
 class GameActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityGameBinding
@@ -477,9 +481,9 @@ class GameActivity : AppCompatActivity() {
                                     binding.acceptAdButton.setOnClickListener {
 
                                         firebaseAnalytics.logEvent(
-                                            "NEW_CHANCE",
+                                            NEW_CHANCE,
                                             bundleOf(
-                                                "PARAM_VIEW_AD" to true
+                                                VIEW_AD to true
                                             )
                                         )
 
@@ -543,7 +547,7 @@ class GameActivity : AppCompatActivity() {
                                                         FirebaseAnalytics.Event.AD_IMPRESSION,
                                                         bundleOf(
                                                             FirebaseAnalytics.Param.AD_UNIT_NAME to ad?.adUnitId,
-                                                            "IS_LOADED_AD_PARAM" to (ad != null)
+                                                            IS_LOADED_AD_PARAM to (ad != null)
                                                         )
                                                     )
                                                 }
@@ -556,9 +560,9 @@ class GameActivity : AppCompatActivity() {
                                         gameOver = true
 
                                         firebaseAnalytics.logEvent(
-                                            "NEW_CHANCE",
+                                            NEW_CHANCE,
                                             bundleOf(
-                                                "PARAM_VIEW_AD" to false
+                                                VIEW_AD to false
                                             )
                                         )
 
