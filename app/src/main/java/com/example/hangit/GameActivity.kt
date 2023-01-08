@@ -45,6 +45,7 @@ const val NEW_CHANCE = "new_chance"
 const val VIEW_AD = "view_ad"
 const val IS_LOADED_AD_PARAM = "is_loaded_ad_param"
 
+
 class GameActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityGameBinding
