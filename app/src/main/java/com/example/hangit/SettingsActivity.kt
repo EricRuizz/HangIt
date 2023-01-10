@@ -37,6 +37,8 @@ class SettingsActivity : AppCompatActivity() {
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.hide()
+
         //Create channel notifications
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel =

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.hangit.GameActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.GenericTypeIndicator
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
@@ -30,6 +31,7 @@ class RankingViewModel : ViewModel() {
 
     fun openRanking() {
         db.get().addOnSuccessListener {
+            ranking.clear()
             it.children.forEach { userID ->
                 ranking.add(
                     User(
@@ -46,6 +48,35 @@ class RankingViewModel : ViewModel() {
             adapter.updateUsersList(orderedUsers)
 
         }
+    }
+
+    fun updateRanking() {
+        db.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+            override fun onDataChange(ds: DataSnapshot) {
+                ranking.clear()
+                ds.children.forEach { userID ->
+                    ranking.add(
+                        User(
+                            userID.child("username").value as String,
+                            userID.child("score").value as Long
+                        )
+                    )
+                }
+
+                //Order users by score ascending
+                var orderedUsers = ranking.sortedBy { it.score }.reversed()
+
+                //Update the ranking/recyclerView
+                adapter.updateUsersList(orderedUsers)
+            }
+
+        })
+
+
     }
 
     fun init(activity: RankingActivity) {
@@ -72,10 +103,8 @@ class RankingViewModel : ViewModel() {
         db.get().addOnSuccessListener {
             it.children.forEach { userID ->
 
-                if((userID.child("username").value as String) == currentUser)
-                {
-                    if((userID.child("score").value as Long) < GameActivity.score)
-                    {
+                if ((userID.child("username").value as String) == currentUser) {
+                    if ((userID.child("score").value as Long) < GameActivity.score) {
                         db.child(currentUserID).child("username").setValue(currentUser)
                         db.child(currentUserID).child("score").setValue(GameActivity.score)
                     }
@@ -83,8 +112,7 @@ class RankingViewModel : ViewModel() {
                 }
             }
 
-            if(!foundUser)
-            {
+            if (!foundUser) {
                 db.child(currentUserID).child("username").setValue(currentUser)
                 db.child(currentUserID).child("score").setValue(GameActivity.score)
             }

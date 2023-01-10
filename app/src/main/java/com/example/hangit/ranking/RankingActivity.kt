@@ -29,6 +29,8 @@ class RankingActivity : AppCompatActivity() {
         binding = ActivityRankingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.hide()
+
         //rankingViewModel.rankingActivity = this
         rankingViewModel.init(this@RankingActivity)
 
@@ -37,6 +39,7 @@ class RankingActivity : AppCompatActivity() {
 
         rankingViewModel.addScore()
         rankingViewModel.openRanking()
+        rankingViewModel.updateRanking()
 
         //Go to back the main screen
         binding.goBackButtonRanking.setOnClickListener {

@@ -17,6 +17,8 @@ class AdActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        supportActionBar?.hide()
+
         //Play Ad
         MobileAds.initialize(this@AdActivity)
         val request = AdRequest.Builder().build()
